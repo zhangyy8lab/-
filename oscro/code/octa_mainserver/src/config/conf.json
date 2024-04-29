@@ -1,0 +1,37 @@
+{
+  "app": {
+    "app_name": "mainServer",
+    "app_addr": "10.1.1.116",
+    "app_port": "9094"
+  },
+  "log": {
+    "log_path": "/var/log/8lab"
+  },
+  "consul": {
+    "server_ip": "10.1.1.116",
+    "server_port": "8500",
+    "token": "6e34993c-16e9-c780-9095-377e5004980e",
+    "node_size": 3
+  },
+  "oauth2": {
+    "addr": "https://192.168.1.178:3000",
+    "client_id": "nxs5vl4sqo9dhq6wo07h",
+    "client_secret": "rkvx2p8ofqisza7m67bgt9mf277ofj5ultpdphfn",
+    "redirect_url": "https://oscro.test.io:22104/oauth",
+    "response_type": "code",
+    "scope": "all",
+    "state": "octa8lab",
+    "authUrl": "/login",
+    "token_url": "/api/oauth/token",
+    "user_url": "/api/oauth/user"
+  },
+  "auth": {
+    "auth_security": "kwcUTbB2ei1n42ddL1bOcGFQ3gEvlQ63AUx"
+  },
+  "account": {
+    "server_name": "account-dev",
+    "account_security": "4dxdL1bOclQ63AUxGkB2ei1n2FwUTbQ3gEv",
+    "account_server_grpc": "accountServerGrpc"
+  },
+  "mode": "dev"
+}

@@ -1,0 +1,3 @@
+deb http://10.1.1.250/ubuntu/ jammy main restricted universe multiverse
+deb http://10.1.1.250/ubuntu/ jammy-updates main restricted universe multiverse
+deb http://10.1.1.250/ubuntu/ jammy-backports main restricted universe multiverse

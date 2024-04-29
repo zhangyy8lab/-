@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="octa_mainserver" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+    <option name="confirmBeforeUploading" value="false" />
+    <serverData>
+      <paths name="octa_mainserver">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/ubuntu/micro_server/octa_mainserver" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="octa_sourcemanageserver">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/ubuntu/micro_server/octa_sourcemanageserver" local="$PROJECT_DIR$/../octa_sourcemanageserver" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

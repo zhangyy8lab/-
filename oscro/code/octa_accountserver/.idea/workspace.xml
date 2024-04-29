@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1b62027d-43bb-4893-9097-1f38be24c4af" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/go/pkg/mod/bitbucket.org/8labteam/octa_sdk@v0.0.0-20230912074852-cb2c8443d952/src/auth/jwt.go" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2UMsZ10XQsdRWCqLgRvfdAtorqo" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/zhangyy/8lab/bitbucket/octa_micro/octa_accountserver&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;go.vgo&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/lib" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="account" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="octa_accountserver" />
+      <target name="dev116" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="bitbucket.org/8labteam/octa_accountserver" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/src/main.go" />
+      <option name="build_on_remote_target" value="true" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Modify:&#10;- 获取用户绑定的ns 增加 过虑条件 wkId, nsName(like)" />
+    <MESSAGE value="Modify:&#10;- cancel getWkAdmin" />
+    <MESSAGE value="Modify:&#10;- 增加定期删除日志" />
+    <MESSAGE value="Modify:&#10;- page count" />
+    <MESSAGE value="Modify:&#10;- config" />
+    <MESSAGE value="Modify:&#10;- user modify" />
+    <MESSAGE value="Modify:&#10;- user register oauth2" />
+    <MESSAGE value="Modify:&#10;- audit / audit_detail" />
+    <MESSAGE value="Modify:&#10;- Dockerfile" />
+    <MESSAGE value="Modify:&#10;- Dockerfile&#10;- sources.list&#10;- reset user password" />
+    <MESSAGE value="Modify:&#10;- go mod version" />
+    <MESSAGE value="Modify:&#10;- build.sh" />
+    <MESSAGE value="Modify:&#10;- run ip" />
+    <MESSAGE value="Modify:&#10;- listen addr" />
+    <MESSAGE value="Modify:&#10;- server register" />
+    <MESSAGE value="Modify:&#10;- dockerfile" />
+    <MESSAGE value="Fix:&#10;- 在wk没有绑定cn时， 授权用户为二级管理员" />
+    <MESSAGE value="Fix:&#10;- 二级管理员登录异常" />
+    <MESSAGE value="Fix:&#10;- register server consulNodeSize" />
+    <MESSAGE value="Fix:&#10;- register server consulNodeSize / ok break" />
+    <MESSAGE value="Fix:&#10;- register server consulNodeSize / ok break 1" />
+    <MESSAGE value="Fix:&#10;- common roleKind" />
+    <MESSAGE value="Modify:&#10;- consul register&#10;- logs" />
+    <MESSAGE value="Modify:&#10;- ns_user_wkRole" />
+    <MESSAGE value="Modify:&#10;- user auto register user.uuid" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modify:&#10;- user auto register user.uuid" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

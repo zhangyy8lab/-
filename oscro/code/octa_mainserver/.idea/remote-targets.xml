@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <option name="projectDefaultTargetUuid" value="5dee4e2d-74c6-44db-9df2-94529237c279" />
+    <targets>
+      <target name="dev116" type="ssh/sftp" uuid="5dee4e2d-74c6-44db-9df2-94529237c279">
+        <config>
+          <option name="projectRootOnTarget" value="/home/ubuntu/micro_server/runTemp" />
+          <option name="serverName" value="dev116" />
+          <option name="useRsync" value="true" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/home/ubuntu/go" />
+            <option name="goRoot" value="/snap/bin/go" />
+            <option name="goVersion" value="go1.21.3 linux/amd64" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
