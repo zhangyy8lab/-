@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nsqd-sts
+  labels:
+    app.oscro.io/name: nsqd
+  namespace: oscro-v2
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app.oscro.io/name: nsqd
+  template:
+    spec:
+      containers:
+        - env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          args:
+            - nsqd
+            - '--broadcast-address=$(POD_IP)'
+            - '--lookupd-tcp-address=nsqlookupd-service-svc:4160'
+            - '--data-path=/data/'
+          name: nsq
+          image: octahub.8lab.cn:5000/oscro/nsq:v1.2.1
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: nsq-data
+              mountPath: /data
+          imagePullPolicy: Always
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: nsqd
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 300Mi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+        name: nsq-data 
+        annotations:
+          volume.beta.kubernetes.io/storage-class: csi-rbd-sc  
+

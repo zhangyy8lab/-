@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nsqadmin-deploy
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: nsqadmin
+  template:
+    metadata:
+      labels:
+        app: nsqadmin
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: nsq
+        image: octahub.8lab.cn:5000/99/nsq:v1.2.1
+        imagePullPolicy: Always
+        args:
+        - nsqadmin 
+        - --lookupd-http-address=nsqlookupd-svc:4161
+        resources:
+          limits:
+            cpu: 100m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 500Mi
+      restartPolicy: Always
