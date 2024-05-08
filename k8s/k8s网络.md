@@ -2,13 +2,25 @@
 
 ## Master
 
-- api-server
+- **api-server**
   - 负责处理接受请求的工作
-- etcd
+- **etcd**
   - 一致且高可用的键值存储，用作 Kubernetes 所有集群数据的后台数据库。
-- Controller
-  - 控制器
-- Scheduler
+- **Controller**
+  - 负责控制和协调各个资源对象的创建、更新和删除，并确保集群中的实际状态与期望状态保持一致
+  - ReplicaSet 控制器：
+    - ReplicaSet 控制器用于确保在集群中运行指定数量的 Pod 副本。
+    - 它通过根据定义的副本数和选择器来创建、更新和删除 Pod。
+    - 监控集群中的 Pod 实例数量，并在需要时进行调整。
+  - Deployment 控制器：
+    - Deployment 控制器在 ReplicaSet 控制器的基础上提供了更高级别的抽象。
+    - 它用于管理应用程序的部署，并支持滚动升级和回滚。
+    - Deployment 控制器可以自动创建和管理 ReplicaSet，以确保指定数量的 Pod 副本在集群中运行。
+  - StatefulSet 控制器：
+    - StatefulSet 控制器用于管理有状态应用程序的部署。
+    - 它确保有状态应用程序的每个实例都具有唯一的标识和稳定的网络标识符。
+    - StatefulSet 控制器还支持有序的创建、更新和删除操作，以维护应用程序的稳定性。
+- **Scheduler**
   - 调度决策考虑的因素包括单个 Pod 及 Pods 集合创建在哪个node上
 
 

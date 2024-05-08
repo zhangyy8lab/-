@@ -1,22 +1,13 @@
 package namespace
 
 import (
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/logs"
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/models/application"
+	"fmt"
+
 	ns "bitbucket.org/8labteam/octa_sdk/v3/pkg/models/namespace"
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/page"
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/request_api/oauthApi"
 	"bitbucket.org/8labteam/octa_sdk/v3/pkg/resp"
 	"bitbucket.org/8labteam/sourceserver/src/config"
-	"errors"
-	"fmt"
 	"github.com/hashicorp/go-uuid"
-	"k8s.io/apimachinery/pkg/util/json"
-	"strconv"
 )
-
-
-
 
 // 创建ns
 func (d *Db) createNs() *resp.CommonResp {
