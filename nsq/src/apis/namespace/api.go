@@ -1,15 +1,16 @@
 package namespace
 
 import (
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/logs"
+	"context"
+
 	"github.com/gin-gonic/gin"
 )
 
 // Ins 实例化
 func Ins(c *gin.Context) *Db {
-    ctx := context.Background()
-    return &Db{newClient(ctx), c, nil}
- }
+	ctx := context.Background()
+	return &Db{newClient(ctx), c, nil}
+}
 
 // 创建
 func createNs(c *gin.Context) {
@@ -23,12 +24,10 @@ func createNs(c *gin.Context) {
 	return
 }
 
-
 // Router 路由
 func Router(e *gin.Engine) {
 	ns := e.Group("/api/namespace")
-    ....	
+	// ....
 	ns.POST("", createNs)
-	....
+	// ....
 }
-oooo

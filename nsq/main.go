@@ -1,7 +1,9 @@
 package main
 
 import (
-	"bitbucket.org/8labteam/octa_sdk/v3/pkg/logs"
+	"fmt"
+
+	"bitbucket.org/8labteam/octa_sdk/src/logs"
 	"bitbucket.org/8labteam/sourceserver/src/apis/clusterNode"
 	"bitbucket.org/8labteam/sourceserver/src/apis/index"
 	"bitbucket.org/8labteam/sourceserver/src/apis/namespace"
@@ -9,7 +11,6 @@ import (
 	"bitbucket.org/8labteam/sourceserver/src/apis/workspace"
 	"bitbucket.org/8labteam/sourceserver/src/config"
 	"bitbucket.org/8labteam/sourceserver/src/utils/md"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
