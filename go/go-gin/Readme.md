@@ -14,3 +14,5 @@
 
   - 响应版本
 
+- gorm 
+  - https://gorm.io/zh_CN/docs/index.html 
