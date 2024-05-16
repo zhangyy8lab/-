@@ -1,0 +1,17 @@
+groups:
+  - name: 容器服务检测Node216
+    rules:
+    - alert: prover-server
+      expr: custom_check_alive_server{prover_server="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server prover-server stop"
+        description: "\n- container server 'prover-server' stop"

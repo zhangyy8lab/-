@@ -1,0 +1,138 @@
+groups:
+  - name: 容器服务检测L2
+    rules:
+      # - alert: prover 
+      #   expr: custom_check_alive_server{prover="stop"} == 0
+
+      #   for: 1m
+
+      #   labels:
+      #     severity: P1
+      #     team: "tusima"
+      #     instance: "{{ $labels.instance }}"
+      #     location: "{{ $labels.location }}"
+
+      #   annotations:
+      #     title: "L2 prover stop"
+      #     description: "\n- container server 'prover' stop" 
+
+    - alert: explorer-backend-l2 
+      expr: custom_check_alive_server{explorer_backend_l2="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 backend stop"
+        description: "\n- container server 'explorer-backend-l2' stop" 
+
+    - alert: explorer-stats-l2 
+      expr: custom_check_alive_server{explorer_stats_l2="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 stats stop"
+        description: "\n- container server 'explorer-stats-l2' stop" 
+
+    - alert: explorer-stats-db-l2 
+      expr: custom_check_alive_server{explorer_stats_db_l2="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 explorer-stats-db-l2 stop"
+        description: "\n- container server 'explorer-stats-db-l2' stop" 
+
+    - alert: explorer-backend-l2-db 
+      expr: custom_check_alive_server{explorer_backend_l2_db="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 backend-db stop"
+        description: "\n- container server 'explorer-backend-l2-db' stop" 
+
+    - alert: cdk-near3 
+      expr: custom_check_alive_server{cdk_near3="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 cdk-near3 stop"
+        description: "\n- container server 'cdk-near3' stop" 
+
+    - alert: explorer-contract-verifier 
+      expr: custom_check_alive_server{explorer_contract_verifier="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 explorer-contract-verifier stop"
+        description: "\n- container server 'explorer-contract-verifier' stop" 
+
+    - alert: explorer-proxy-l2
+      expr: custom_check_alive_server{explorer_proxy_l2="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 explorer-proxy-l2 stop"
+        description: "\n- container server 'explorer-proxy-l2' stop"
+
+    - alert: explorer-frontend-l2
+      expr: custom_check_alive_server{explorer_frontend_l2="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "L2 explorer-frontend-l2 stop"
+        description: "\n- container server 'explorer-frontend-l2' stop"
+

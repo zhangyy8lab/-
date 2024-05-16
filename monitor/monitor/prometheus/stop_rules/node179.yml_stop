@@ -1,0 +1,47 @@
+groups:
+  - name: 容器服务检测Node179
+    rules:
+    - alert: agitated_colden
+      expr: custom_check_alive_server{agitated_colden="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server agitated-colden stop"
+        description: "\n- container server 'agitated-colden' stop"
+
+    - alert: eth-testnet
+      expr: custom_check_alive_server{eth_testnet="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server eth-testnet stop"
+        description: "\n- container server 'eth-testnet' stop"
+        
+    - alert: zk-relay
+      expr: custom_check_alive_server{zk_relay="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server zk-relay stop"
+        description: "\n- container server 'zk-relay' stop"

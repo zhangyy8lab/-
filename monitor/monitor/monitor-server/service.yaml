@@ -1,0 +1,17 @@
+monitorServer:
+  server: [
+    "prover",
+    "explorer-proxy-l2",
+    "explorer-stats-l2",
+    "explorer-frontend-l2",
+    "explorer-stats-db-l2",
+    "explorer-backend-l2",
+    "explorer-backend-l2-db",
+    "cdk-near3",
+    "dev-zkevm-bridge-ui",
+    "browser_frontend",
+    "explorer-contract-verifier"
+  ]
+
+server:
+  port: 8000

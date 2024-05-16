@@ -1,0 +1,8 @@
+templates:
+  - /opt/dingtalk/template/dingtalk.tmpl
+targets:
+  webhook1:
+    url: https://oapi.dingtalk.com/robot/send?access_token=ec07eb655dea1c999bb96f2d8f0ceec0d078d028906faf60f5230f92b36c8345
+    # secret for signature
+    secret: SEC29f39f9db7e81a973efa74f35d7064bc0fb88b9e607bc8500d447238f5e0d16d 
+

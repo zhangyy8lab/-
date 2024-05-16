@@ -1,0 +1,71 @@
+{{ define "__subject" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}]
+{{ end }}
+
+
+{{ define "__alert_list" }}{{ range . }}
+**告警级别:** {{ .Labels.severity }}
+
+**告警名称:** {{ index .Annotations "title" }}
+
+**负责团队:** {{ .Labels.team |toUpper}}
+
+**告警主机:** {{ .Labels.job}}
+
+**区域主机:** {{ .Labels.location }}
+
+**告警信息:** {{ index .Annotations "description" }}
+
+{{ if eq .Labels.alertname "磁盘使用率预警" }}
+
+**事件标签:** {{ index .Annotations "detail" }}
+
+{{ end }}
+
+**告警时间:** {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+
+---
+
+{{ end }}{{ end }}
+
+{{ define "__resolved_list" }}{{ range . }}
+**告警级别:** {{ .Labels.severity }}
+
+**告警名称:** {{ index .Annotations "title" }}
+
+**负责团队:** {{ .Labels.team |toUpper}}
+
+**告警主机:** {{ .Labels.job }}
+
+**区域主机:** {{ .Labels.location }}
+
+**告警信息:** {{ index .Annotations "description" }}
+
+**告警时间:** {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+
+**恢复时间:** {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+
+{{ end }}{{ end }}
+
+
+{{ define "default.title" }}
+{{ template "__subject" . }}
+{{ end }}
+
+{{ define "default.content" }}#### \[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}\] **[{{ index .GroupLabels "alertname" }}]({{ template "__alertmanagerURL" . }})**
+---
+{{ if gt (len .Alerts.Firing) 0 }}
+{{ template "__alert_list" .Alerts.Firing }}
+{{ end }}
+
+
+{{ if gt (len .Alerts.Resolved) 0 }}
+{{ template "__resolved_list" .Alerts.Resolved }}
+{{ end }}
+{{ end }}
+
+
+{{ define "ding.link.title" }}{{ template "default.title" . }}{{ end }}
+{{ define "ding.link.content" }}{{ template "default.content" . }}{{ end }}
+{{ template "default.title" . }}
+{{ template "default.content" . }}

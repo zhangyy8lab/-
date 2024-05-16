@@ -1,0 +1,63 @@
+groups:
+  - name: 容器服务检测Node144
+    rules:
+   #   - alert: zk-relay-26
+   #     expr: custom_check_alive_server{2_zk_relay_26="stop"} == 0
+
+   #     for: 1m
+
+   #     labels:
+   #       severity: P1
+   #       team: "tusima"
+   #       instance: "{{ $labels.instance }}"
+   #       location: "{{ $labels.location }}"
+
+   #     annotations:
+   #       title: "server 2-zk-relay-26 stop"
+   #       description: "\n- container server '2-zk-relay-26' stop"
+
+   #   - alert: eth-zk-relay-26
+   #     expr: custom_check_alive_server{2_eth_zk_relay_26="stop"} == 0
+
+   #     for: 1m
+
+   #     labels:
+   #       severity: P1
+   #       team: "tusima"
+   #       instance: "{{ $labels.instance }}"
+   #       location: "{{ $labels.location }}"
+
+   #     annotations:
+   #       title: "server 2-eth-zk-relay-26 stop"
+   #       description: "\n- container server '2-eth-zk-relay-26' stop"
+
+    - alert: zk-relay7
+      expr: custom_check_alive_server{zk_relay7="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server zk-relay7 stop"
+        description: "\n- container server 'zk-relay7' stop"
+        
+    - alert: re-zk-relay7
+      expr: custom_check_alive_server{re_zk_relay7="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server re-zk-relay7 stop"
+        description: "\n- container server 're-zk-relay7' stop"
+

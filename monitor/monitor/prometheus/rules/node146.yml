@@ -1,0 +1,62 @@
+groups:
+  - name: 容器服务检测Node146
+    rules:
+    - alert: test-browserserver
+      expr: custom_check_alive_server{test_browserserver="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server test-browserserver stop"
+        description: "\n- container server 'test-browserserver' stop"
+
+    - alert: test_tusima-postgres 
+      expr: custom_check_alive_server{test_tusima_postgres="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server test_tusima-postgres stop"
+        description: "\n- container server 'test_tusima-postgres' stop"
+
+    - alert: tusima-postgres21a
+      expr: custom_check_alive_server{tusima_postgres21a="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server tusima-postgres21a stop"
+        description: "\n- container server 'tusima-postgres21a' stop"
+        
+    - alert: tusima-browserserver21
+      expr: custom_check_alive_server{tusima_browserserver21="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server tusima-browserserver21 stop"
+        description: "\n- container server 'tusima-browserserver21' stop"

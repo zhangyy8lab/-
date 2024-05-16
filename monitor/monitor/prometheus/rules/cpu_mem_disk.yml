@@ -1,0 +1,53 @@
+groups:
+  # 组名。报警规则组名称
+  - name: 内存预警
+    rules:
+    - alert: 内存使用率预警
+      expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 90
+      for: 1m 
+      labels:
+        team: "tusima"
+        severity: P2
+        instance: "{{ $labels.instance }}" 
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "内存使用率超出90%"
+        description: "Memory usage exceeds 90%, current:{{ printf \"%.2f\" $value }}%"
+
+  - name: 磁盘预警
+    rules:
+    - alert: 磁盘使用率预警
+      expr: (node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes * 100 > 90
+
+      for: 1m
+
+      labels:
+        team: "tusima"
+        severity: P2
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "磁盘使用率预警"
+        description: "disk usage exceeds 90%, current:{{ printf \"%.2f\" $value }}%"
+        detail: "\n - device:{{ $labels.device }}
+        \n - fstype:{{ $labels.fstype }}
+        \n - mountport: {{ $labels.mountpoint }}"
+
+  - name: 实例存活报警
+    rules:
+    - alert: 实例存活报警
+      expr: up == 0
+      for: 30s
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "节点宕机报警"
+        instance: "{{ $labels.instance }}"
+        describe: "节点 **({{ $labels.instance }}) 断联, 请及时处理!"

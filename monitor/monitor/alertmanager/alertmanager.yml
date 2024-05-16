@@ -1,0 +1,20 @@
+global:
+  # 每5分钟检查一次是否恢复
+  resolve_timeout: 30s # 5m
+# route用来设置报警的分发策略
+route:
+  # 采用哪个标签来作为分组依据
+  group_by: ['alertname']
+  # 组告警等待时间。也就是告警产生后等待30s，如果有同组告警一起发出
+  group_wait: 3s
+  # 两组告警的间隔时间
+  group_interval: 10s
+  # 重复告警的间隔时间，减少相同告警的发送频率
+  repeat_interval: 5m
+  # 设置默认接收人
+  receiver: 'webhook'
+receivers:
+- name: 'webhook'
+  webhook_configs:
+  - url: 'http://172.19.23.177:9026/dingtalk/webhook1/send'
+    send_resolved: true

@@ -1,0 +1,63 @@
+groups:
+  - name: 容器服务检测Node144
+    rules:
+    - alert: galactic-redis
+      expr: custom_check_alive_server{galactic_redis="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server galactic-redis stop"
+        description: "\n- container server 'galactic-redis' stop"
+
+    - alert: galactic-backend
+      expr: custom_check_alive_server{galactic_backend="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server galactic-backend stop"
+        description: "\n- container server 'galactic-backend' stop"
+        
+    - alert: galactic-pg-db
+      expr: custom_check_alive_server{galactic_pg_db="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server galactic-pg-db stop"
+        description: "\n- container server 'galactic-pg-db' stop"
+
+    - alert: tusima-web
+      expr: custom_check_alive_server{tusima_web="stop"} == 0
+
+      for: 1m
+
+      labels:
+        severity: P1
+        team: "tusima"
+        instance: "{{ $labels.instance }}"
+        location: "{{ $labels.location }}"
+
+      annotations:
+        title: "server tusima-web stop"
+        description: "\n- container server 'tusima-web' stop"
+
