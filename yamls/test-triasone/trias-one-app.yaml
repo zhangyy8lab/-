@@ -1,0 +1,26 @@
+apiVersion: app.oscro.io/v1beta1
+kind: Application
+metadata:
+  name: trias-one-app
+  namespace: l4-test-a123  
+spec:
+  selector:
+    matchLabels:
+     app.k8s.io/name: "trias-one"
+  componentKinds:
+    - group: apps
+      kind: Deployment
+    - group: v1
+      kind: Service
+  addOwnerRef: true
+  descriptor:
+    type: "trias-web"
+    version: "v1.0"
+    description: "This is an official website"
+    maintainers:
+      - name: wjh
+        email: wjh@8lab.cn
+    owners:
+      - name: admin
+        email: admin@8lab.cn
+

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ck-sts
+  namespace: appdata
+spec:
+  selector:
+    matchLabels:
+      app: ck
+  serviceName: ck-svc
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: ck
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      initContainers:
+      - name: init-ulimit
+        image: octahub.8lab.cn:5000/99/busybox:1.28
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        command: ["sh", "-c", "ulimit -n 655350"]
+      - name: init-chown
+        image: octahub.8lab.cn:5000/99/busybox:1.28
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        command: ["sh", "-c", "chown -R 1000. /usr/local/clickhouse"]
+        volumeMounts:
+        - name: ck-data
+          mountPath: /usr/local/clickhouse
+      containers:
+      - name: clickhouse
+        image: octahub.8lab.cn:5000/99/clickhouse:v23.5.4
+       #command:
+       #- sh
+       #- -c
+       #args:
+       #- sleep infinity
+        resources:
+          limits:
+            ephemeral-storage: "2Gi"
+          requests:
+            ephemeral-storage: "2Gi"
+
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - name: ck-cm
+          mountPath: /etc/clickhouse-server/config.xml
+          subPath: config.xml
+        - name: ck-cm
+          mountPath: /etc/clickhouse-server/metrica.xml
+          subPath: metrica.xml
+        - name: ck-cm
+          mountPath: /etc/clickhouse-server/users.xml
+          subPath: users.xml
+        - name: ck-data
+          mountPath: /usr/local/clickhouse
+     #securityContext:
+     #  runAsUser: 0
+     #  fsGroup: 0
+      volumes:
+      - name: ck-cm
+        configMap:
+          name: ck-cm
+  volumeClaimTemplates:
+  - metadata:
+      name: ck-data
+    spec:
+      storageClassName: "csi-rbd-sc"
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Gi

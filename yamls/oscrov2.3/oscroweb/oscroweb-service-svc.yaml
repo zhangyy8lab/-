@@ -1,0 +1,17 @@
+kind: Service
+spec:
+  ports:
+    - name: mainport
+      port: 10083
+      protocol: TCP
+      targetPort: 10083
+  selector:
+    app.oscro.io/name: oscroweb
+  externalIPs:
+    - 192.168.1.96
+metadata:
+  name: oscroweb-service-svc
+  labels:
+    app.oscro.io/name: oscroweb
+  namespace: oscro-v2
+apiVersion: v1

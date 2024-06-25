@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeopt-deploy
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: kubeopt
+  template:
+    metadata:
+      labels:
+        app: kubeopt
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: kubeopt-backend
+        image: octahub.8lab.cn:5000/99/kubeopt:v20231226
+        imagePullPolicy: Always
+       #- name: SELF_NAMESPACE
+       #  valueFrom:
+       #    fieldRef:      
+       #      fieldPath: metadata.namespace
+        args:
+        - --v=3 
+        volumeMounts:
+        - name: jwe-rsa
+          subPath: authorize.priv
+          mountPath: /certs/authorize.priv
+        - name: jwe-rsa
+          subPath: authorize.pub
+          mountPath: /certs/authorize.pub
+        - name: kubeopt-cm
+          mountPath: /etc/oscro/
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 500Mi
+      restartPolicy: Always
+      serviceAccountName: kubeopt-sa
+      volumes:
+      - name: jwe-rsa
+        secret: 
+          secretName: jwe-rsa-secret
+      - name: kubeopt-cm
+        configMap:
+          name: kubeopt-cm

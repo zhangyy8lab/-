@@ -1,0 +1,33 @@
+data:
+  conf.json: |
+    {
+      "app": {
+        "app_name": "auditServer",
+        "app_addr": "192.168.1.96",
+        "app_port": "10086"
+      },
+      "consul": {
+        "server_ip": "192.168.1.97",
+        "server_port": "8500",
+        "token": "b408de14-17e3-216a-cd74-124a6a3914de",
+        "node_size": 3
+      },
+      "db": {
+        "db_name": "oscro",
+        "db_host": "192.168.1.99",
+        "db_port": "3306",
+        "db_user": "8lab",
+        "db_passwd": "8lab"
+      },
+      "log": {
+        "log_path": "/data/oscro-v2/logs"
+      },
+      "mode": "release"
+    }
+kind: ConfigMap
+metadata:
+  name: auditserver-configmap-cm
+  labels:
+    app.oscro.io/name: auditserver
+  namespace: oscro-v2
+apiVersion: v1

@@ -1,0 +1,39 @@
+data:
+  conf.json: |
+    {
+      "app": {
+        "app_name": "accountServer",
+         "app_addr": "192.168.1.96",
+         "app_port": "10089"
+      },
+      "log": {
+        "log_path": "/data/oscro-v2/logs"
+      },
+      "consul": {
+        "server_ip": "192.168.1.97",
+         "server_port": "8500",
+         "token": "b408de14-17e3-216a-cd74-124a6a3914de",
+         "node_size": 1
+      },
+      "db": {
+        "db_name": "oscro",
+        "db_host": "192.168.1.99",
+         "db_port": "3306",
+         "db_user": "8lab",
+         "db_passwd": "8lab"
+      },
+      "accountServer": {
+        "account_key": "4dxdL1bOclQ63AUxGkB2ei1n2FwUTbQ3gEv"
+      },
+      "oauth": {
+        "address": "https://192.168.1.98:8083"
+      },
+      "mode": "release"
+    }
+kind: ConfigMap
+metadata:
+  name: accountserver-cm
+  labels:
+    app.oscro.io/name: accountserver
+  namespace: oscro-v2
+apiVersion: v1

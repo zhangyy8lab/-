@@ -1,0 +1,56 @@
+data:
+  front.conf: |
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+    }
+    server {
+            listen         10083;
+            server_name    .*;
+            charset UTF-8;
+            access_log      /data/logs/nginx/access.log;
+            error_log       /data/logs/nginx/error.log;
+
+            client_max_body_size 75M;
+            gzip on;
+            gzip_comp_level 3;
+            gzip_types application/javascript image/png video/mp4;
+            gzip_vary on;
+
+            location / {
+              root        /usr/local/octa_optmain_porta_frontend/dist/;
+              try_files $uri $uri/ /index.html;
+              index /index.html;
+            }
+            location /appdatas {
+              root        /usr/local/tabix/dist/;
+              try_files $uri $uri/ /appdatas/index.html;
+              #index /index.html;
+              #rewrite "^/appdatas/(.*)$" /$1 break; 
+              #proxy_pass http://192.168.1.97:10082;
+              proxy_connect_timeout 600;
+              proxy_read_timeout 600;
+            } 
+            location ~ ^/api {
+             proxy_set_header Upgrade $http_upgrade;
+             proxy_set_header Connection "$connection_upgrade";
+             proxy_set_header Host $http_host;
+             proxy_set_header X-Real-IP $remote_addr;
+             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+             proxy_read_timeout 25s;
+              
+            #if ($arg_opt_address){
+            #        proxy_pass http://$arg_opt_address:$arg_opt_port;
+            #        break;
+            # }
+                          
+            proxy_pass http://192.168.1.96:10090;
+            }
+    }
+kind: ConfigMap
+metadata:
+  name: oscroweb-cm
+  labels:
+    app.oscro.io/name: oscroweb
+  namespace: oscro-v2
+apiVersion: v1

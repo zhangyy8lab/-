@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: oscro-v2
+  name: harborserver-sts
+  labels: 
+    app.oscro.io/name: harborserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: harborserver
+  template:
+    spec:
+      volumes:
+        - name: harborserver-cm
+          configMap:
+            name: harborserver-cm
+      containers:
+        - name: harborserver
+          image: octahub.8lab.cn:5000/oscro/octa-harborserver:v2312261130 #v2312220754
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: harborserver-cm
+              subPath: config.ini
+              mountPath: /usr/local/server/src/config/config.ini
+            - name: log-data 
+              mountPath: /data/oscro-v2/logs
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: harborserver
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 200Mi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+          name: log-data 
+          annotations:
+            volume.beta.kubernetes.io/storage-class: csi-rbd-sc

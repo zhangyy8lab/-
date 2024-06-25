@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+spec:
+  resources:
+    requests:
+      storage: 200Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: csi-rbd-sc
+metadata:
+  name: accountserver-persistentvolumeclaim-pvc
+  labels:
+    app.oscro.io/name: accountserver
+  namespace: oscro-v2
+apiVersion: v1

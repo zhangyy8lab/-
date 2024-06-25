@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-https-oscro 
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`oscro.8lab.cn`) 
+    kind: Rule
+    services:
+    - name: main-server-svc 
+      port: 8887
+      kind: Service
+  tls:
+    secretName: oscro-tls

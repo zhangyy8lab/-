@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    app.oscro.io/name: user-controller-app
+  name: user-controller-deploy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      <<: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - args:
+#       - --leader-elect
+       #image: octahub.8lab.cn:5000/99/user-controller:v20221128
+        image: octahub.8lab.cn:5000/99/user-controller:v20230330-26
+        imagePullPolicy: IfNotPresent
+        name: user-controller
+       #resources:
+       #  limits:
+       #    cpu: 200m
+       #    memory: 100Mi
+       #  requests:
+       #    cpu: 200m
+       #    memory: 100Mi
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: user-controller-sa

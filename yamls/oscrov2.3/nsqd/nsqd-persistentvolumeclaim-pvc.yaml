@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: csi-rbd-sc
+metadata:
+  name: nsqd-persistentvolumeclaim-pvc
+  labels:
+    app.oscro.io/name: nsqd
+  namespace: oscro-v2
+apiVersion: v1

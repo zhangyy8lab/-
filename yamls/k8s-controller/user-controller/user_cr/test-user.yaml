@@ -1,0 +1,4 @@
+apiVersion: user.oscro.io/v1alpha1
+kind: User
+metadata:
+  name: test

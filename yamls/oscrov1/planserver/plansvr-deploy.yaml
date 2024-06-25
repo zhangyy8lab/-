@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plansvr-deploy
+  namespace: default
+  labels:
+    app: plansvr
+spec:
+  selector:
+    matchLabels:
+      app: plansvr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: plansvr
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: plansvr
+        image: octahub.8lab.cn:5000/99/planserver:v2304171706 
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: server-conf
+          mountPath: /usr/local/PlanServer/config/config.json
+          subPath: config.json
+#        - name: server-conf
+#          mountPath: /etc/uwsgi.ini
+#          subPath: uwsgi.ini
+      volumes:
+      - name: server-conf
+        configMap:
+          name: plansvr-cm
+

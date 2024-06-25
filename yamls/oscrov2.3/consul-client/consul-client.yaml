@@ -1,0 +1,21 @@
+kind: Application
+spec:
+  selector:
+    matchLabels:
+      app.oscro.io/name: consul-client
+  addOwnerRef: true
+  componentKinds:
+    - kind: PipelineRun
+      group: tekton.dev
+    - kind: StatefulSet
+      group: apps
+    - kind: Service
+      group: v1
+    - kind: ConfigMap
+      group: v1
+metadata:
+  name: consul-client
+  namespace: oscro-v2
+  finalizers:
+    - foregroundDeletion
+apiVersion: app.oscro.io/v1beta1

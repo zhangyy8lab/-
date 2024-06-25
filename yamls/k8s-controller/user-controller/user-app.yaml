@@ -1,0 +1,23 @@
+apiVersion: app.oscro.io/v1beta1
+kind: Application
+metadata:
+  name: user-controller-app
+spec:
+  selector:
+    matchLabels:
+     app.oscro.io/name: "user-controller-app"
+    #app: ykl-npm-001
+  componentKinds:
+    - group: apps
+      kind: Deployment
+  addOwnerRef: true
+  descriptor:
+    type: "controller"
+    version: "v0.1"
+    description: "this is open source monitoring tools"
+    maintainers:
+      - name: wjh
+        email: wjh@8lab.cn
+    owners:
+      - name: admin
+        email: admin@8lab.cn

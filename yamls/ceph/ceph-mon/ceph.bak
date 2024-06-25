@@ -1,0 +1,21 @@
+[global]
+fsid = 29b0c042-312a-4a5b-a397-6df9e4572535
+mon_initial_members = k8s-s1
+mon_host = 192.168.1.129
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+public_network = 192.168.1.0/24     #管理网络
+cluster_network = 192.168.1.0/24    #集群网络
+osd journal size = 1024
+#filestore xattr use omap = true
+osd pool default size = 2
+osd pool default min size = 1
+osd pool default pg num = 520
+osd pool default pgp num = 520
+#osd crush chooseleaf type = 1
+mon allow pool delete = true
+
+[mgr]
+mgr_host = k8s-s1
+mgr modules = dashboard             #开启mgr模板

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ciserver-deploy
+  namespace: default
+  labels:
+    app: ciserver
+spec:
+  selector:
+    matchLabels:
+      app: ciserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ciserver
+    spec:
+#      hostAliases:
+#      - ip: "192.168.1.220"
+#        hostnames: 
+#        - "octahub.8lab.cn"
+      serviceAccountName: cicd-sa
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: ciserver
+        image: octahub.8lab.cn:5000/99/cicdserver:v2305121329 #v2303291659 # v2303091639
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: django
+          containerPort: 9002
+          protocol: TCP
+        volumeMounts:
+        - name: server-conf
+          mountPath: /usr/local/ciServer/ciServer/conf/config.json
+          subPath: config.json
+        - name: server-conf
+          mountPath: /etc/uwsgi.ini
+          subPath: uwsgi.ini
+      volumes:
+      - name: server-conf
+        configMap:
+          name: ciserver-cm 

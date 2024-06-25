@@ -1,0 +1,110 @@
+kind: StatefulSet
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.oscro.io/name: consul-client
+  template:
+    spec:
+      volumes:
+        - name: consul-client-configmap-cm
+          configMap:
+            name: consul-client-configmap-cm
+      containers:
+        - env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          args:
+            - agent
+            - '-config-dir=/usr/local/consul/config'
+            - '-ui'
+            - '-data-dir=/data/consul'
+            - '-bind=0.0.0.0'
+            - '-client=0.0.0.0'
+            - '-advertise=$(POD_IP)'
+            - >-
+              -retry-join=consul-server-statefulset-sts-0.consul-server-service-svc.$(NAMESPACE).svc.cluster.local
+            - >-
+              -retry-join=consul-server-statefulset-sts-1.consul-server-service-svc.$(NAMESPACE).svc.cluster.local
+            - >-
+              -retry-join=consul-server-statefulset-sts-2.consul-server-service-svc.$(NAMESPACE).svc.cluster.local
+            - '-domain=cluster.local'
+            - '-disable-host-node-id'
+          name: consul
+          image: octahub.8lab.cn:5000/oscro/consul:v1.15.2
+          ports:
+            - name: http
+              containerPort: 8500
+            - name: rpc
+              containerPort: 8400
+            - name: https
+              containerPort: 8443
+            - name: serf-lan
+              containerPort: 8301
+            - name: serf-wan
+              containerPort: 8302
+            - name: consul
+              containerPort: 8600
+            - name: server
+              containerPort: 8300
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - '-c'
+                  - >-
+                    export CONSUL_HTTP_TOKEN=`grep -r initial
+                    /usr/local/consul/config/|awk -F'"' '{print $4}'` && consul
+                    leave
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - '-c'
+                  - >-
+                    export CONSUL_HTTP_TOKEN=`grep -r initial
+                    /usr/local/consul/config/|awk -F'"' '{print $4}'` && consul
+                    reload
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 200m
+              memory: 200Mi
+          volumeMounts:
+            - name: consul-data
+              mountPath: /consul/data
+            - name: consul-client-configmap-cm
+              mountPath: /usr/local/consul/config
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: consul-client
+  serviceName: consul-client-service-svc
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 1Gi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+        name: consul-data
+        annotations:
+          volume.beta.kubernetes.io/storage-class: csi-rbd-sc
+metadata:
+  name: consul-client-statefulset-sts
+  labels:
+    app.oscro.io/name: consul-client
+  namespace: oscro-v2
+apiVersion: apps/v1

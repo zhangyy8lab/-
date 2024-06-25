@@ -1,0 +1,21 @@
+kind: Service
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 4161
+      protocol: TCP
+      targetPort: 4161
+    - name: tcp
+      port: 4160
+      protocol: TCP
+      targetPort: 4160
+  selector:
+    app.oscro.io/name: nsqlookupd
+  externalIPs: []
+metadata:
+  name: nsqlookupd-service-svc
+  labels:
+    app.oscro.io/name: nsqlookupd
+  namespace: oscro-v2
+apiVersion: v1

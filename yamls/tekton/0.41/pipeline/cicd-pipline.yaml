@@ -1,0 +1,147 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: cicd-pipline
+spec:
+  description: Generate an image based on the code repository, push it to the image repository, and update the specified application container.
+  params:
+    - name: dockerfile
+      description: 使用的dockerfile位置
+      default: Dockerfile
+    - name: httpsProxy
+      description: 使用代理拉取代码 (例 "https://x.x.x.x:1080")
+      default: ""
+    - name: sourceUrl
+      description: 代码仓库的地址 (例 "https://bitbucket.org/8labteam/octa_kubeopt.git") (Must)
+    - name: sourceReference
+      description: 仓库的分支或标签 (例 "master") (Must)
+    - name: registry
+      description: 镜像仓库的地址 (例 "octahub.8lab.cn:5000/test") (Must)
+    - name: imageName
+      description: 生成镜像的名称 (Must)
+    - name: imageTag
+      default: "$(tasks.fetch-from-git.results.time)"
+      description: 生成镜像的标签 (默认 执行构建的时间如 2209191810) (Must)
+    - name: whetherDeploy
+      default: "false"
+      description: 是否将生成的镜像更新到容器运行时,为 true 时下列值不可为空 (Must)
+    - name: resourceKind
+      description: 应用的类型(deployment,statefulset,daemonset)
+      default: ""
+    - name: resourceName
+      description: 应用的名称
+      default: ""
+    - name: containerName
+      default: []
+      type: array
+      description: 应用中容器的名称
+  workspaces:
+    - name: git-source
+    - name: dockerconfig
+    - name: basic-auth
+      optional: true
+  tasks:
+    - name: fetch-from-git
+      taskRef:
+    #   name: fetch-from-git
+    #   kind: ClusterTask
+        resolver: cluster
+        params:
+        - name: kind
+          value: task
+        - name: name
+          value: fetch-from-git
+        - name: namespace
+          value: default
+      params:
+        - name: httpsProxy
+          value: $(params.httpsProxy)
+        - name: url
+          value: $(params.sourceUrl)
+        - name: revision
+          value: $(params.sourceReference)
+      workspaces:
+        - name: git-source
+          workspace: git-source
+        - name: basic-auth
+          workspace: basic-auth
+    - name: build-and-push
+      taskRef:
+    #   kind: ClusterTask
+    #   name: build-and-push
+        resolver: cluster
+        params:
+        - name: kind
+          value: task
+        - name: name
+          value: build-and-push
+        - name: namespace
+          value: default
+      params:
+        - name: imageName
+          value: "$(params.imageName)"
+        - name: imageTag
+          value: "$(params.imageTag)"
+        - name: registry
+          value: "$(params.registry)"
+        - name: dockerfile
+          value: "$(params.dockerfile)"
+      workspaces:
+        - name: git-source
+          workspace: git-source
+        - name: dockerconfig
+          workspace: dockerconfig
+      runAfter:
+        - fetch-from-git
+    - name: image-cache
+      taskRef:
+        resolver: cluster
+        params:
+        - name: kind
+          value: task
+        - name: name
+          value: image-cache
+        - name: namespace
+          value: default
+      params:
+        - name: cacheImage
+          value: "$(tasks.build-and-push.results.cacheImage)"
+      workspaces:
+        - name: dockerconfig
+          workspace: dockerconfig
+      runAfter:
+        - build-and-push 
+    - name: continuous-deploy
+      when:
+      - input: $(params.whetherDeploy)
+        operator: in
+        values: 
+        - "true"
+      taskRef:
+      # name: continuous-deploy
+      # kind: ClusterTask
+        resolver: cluster
+        params:
+        - name: kind
+          value: task
+        - name: name
+          value: continuous-deploy
+        - name: namespace
+          value: default
+      params:
+        - name: resourceKind
+          value: $(params.resourceKind)
+        - name: resourceName
+          value: $(params.resourceName)
+        - name: containerName
+          value:
+          - $(params.containerName)
+        - name: registry
+          value: $(params.registry)
+        - name: imageName
+          value: $(params.imageName)
+        - name: imageTag
+          value: $(params.imageTag)
+      runAfter: 
+        - build-and-push

@@ -1,0 +1,84 @@
+{{ range $value := .Values.osd_devices }}
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ceph-osd-{{ $value.name }}-ds
+spec:
+  selector:
+    matchLabels:
+      app: ceph-osd
+  template:
+    metadata:
+      labels:
+        app: ceph-osd
+    spec:
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: registry-secret
+     #initContainers:
+     #- name: chmod
+     #  image: octahub.8lab.cn:5000/99/busybox:1.28
+     #  imagePullPolicy: IfNotPresent
+     #  command: ["sh", "-c", "chown -R 1000:1000 /data/ceph/osd"]
+     #  volumeMounts:
+     #    - name: osd-data
+     #      mountPath: /data/ceph/osd
+      containers:
+      - name: osd
+        image: octahub.8lab.cn:5000/99/ceph-osd:17.2.5
+        imagePullPolicy: Always
+        args:
+        - --setuser=ceph
+        - --setgroup=ceph
+        - -d 
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        env:
+        - name: OSD_DEV
+          value: {{ $value.device }}
+        {{- if $value.db_device }}
+        - name: OSD_DB_DEV
+          value: {{ $value.db_device }}
+        {{- end }}
+        {{- if $value.wal_device }}
+        - name: OSD_WAL_DEV
+          value: {{ $value.wal_device }}
+        {{- end }}
+        volumeMounts:
+          - mountPath: /etc/ceph/ceph.conf
+            subPath: ceph.conf
+            name: ceph-cm
+          - name: osd-data
+            mountPath: /var/lib/ceph/osd
+          - mountPath: /etc/ceph/ceph.keyring
+            subPath: ceph.bootstrap.osd.keyring
+            name: ceph-keyring
+      volumes:
+      - name: ceph-cm
+        configMap:
+          name: ceph-cm
+      - name: osd-data
+        hostPath: 
+          path: /data/ceph/osd
+      - name: ceph-keyring
+        secret:
+          secretName: ceph-keyring
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: ceph-osd-17
+                operator: In
+                values:
+                - enabled
+              - key: ceph-osd-dev-{{ $value.name}}
+                operator: In
+                values:
+                - enabled
+{{ end }}

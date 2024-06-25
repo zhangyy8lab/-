@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ceph-radosgw-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ceph-radosgw
+  template:
+    metadata:
+      labels:
+        app: ceph-radosgw
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: radosgw
+        image: octahub.8lab.cn:5000/99/ceph-radosgw:17.2.5
+        imagePullPolicy: Always
+        args:
+        - -d 
+        - -n client.radosgw.gateway
+        - --keyring /etc/ceph/ceph.keyring
+        volumeMounts:
+          - mountPath: /etc/ceph/ceph.conf
+            subPath: ceph.conf
+            name: ceph-cm
+          - mountPath: /etc/ceph/ceph.keyring
+            subPath: ceph.client.radosgw.gateway.keyring
+            name: ceph-keyring
+      volumes:
+      - name: ceph-cm
+        configMap:
+          name: ceph-cm
+      - name: ceph-keyring
+        secret:
+          secretName: ceph-keyring

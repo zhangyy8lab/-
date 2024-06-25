@@ -1,0 +1,25 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+spec:
+      imagePullSecrets:
+      - name: registry-secret
+  containers:
+  - name: test-pod
+      imagePullSecrets:
+      - name: registry-secret
+    image: gcr.io/google_containers/busybox:1.24
+    command:
+    - "/bin/sh"
+    args:
+    - "-c"
+    - "touch /mnt/SUCCESS && exit 0 || exit 1"
+    volumeMounts:
+    - name: pvc
+      mountPath: "/mnt"
+  restartPolicy: "Never"
+  volumes:
+  - name: pvc
+    persistentVolumeClaim:
+      claimName: claim1

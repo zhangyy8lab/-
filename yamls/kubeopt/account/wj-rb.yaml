@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wj-rb
+  namespace: l4-test-testns  #{NAMESPACE}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ops-cr
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: l4-wangjing

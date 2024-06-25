@@ -1,0 +1,29 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: octack-cm
+data:
+  config.yaml: |-
+    #Database related configuration
+    db:
+      host: #管理资源时轮询操作
+      - ck-sts-0.ck-svc.appdata.svc.cluster.local:9000
+      - ck-sts-1.ck-svc.appdata.svc.cluster.local:9000
+      - ck-sts-2.ck-svc.appdata.svc.cluster.local:9000
+      - ck-sts-3.ck-svc.appdata.svc.cluster.local:9000
+      httpURL: http://ck-svc.appdata:8123 #代理 tabix请求，随机一个节点连接
+      username: octa8lab
+      password: octa8lab
+      databaseName: default
+      compressionLevel: 10
+      onCluster: #octa_ck_cluster
+      userMaxMemUsage: 1073741824 #1Gi 用户查询操作可用内存
+      logLevel: info # info warn error silent
+    
+    
+    whitelist:
+    verifyKeyFile: /usr/local/octack/rsa/validating.pub 
+    #https tls
+    tls:
+      certFile: /usr/local/octack/certs/authorize.crt
+      keyFile: /usr/local/octack/certs/authorize.key

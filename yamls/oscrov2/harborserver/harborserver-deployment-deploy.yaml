@@ -1,0 +1,42 @@
+kind: Deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: harborserver
+  template:
+    spec:
+      volumes:
+        - name: harborserver-cm
+          configMap:
+            name: harborserver-cm
+        - name: harborserver-persistentvolumeclaim-pvc
+          persistentVolumeClaim:
+            claimName: harborserver-persistentvolumeclaim-pvc
+      containers:
+        - name: harborserver
+          image: octahub.8lab.cn:5000/oscro/octa-harborserver-v2.2:2311241038 
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: harborserver-cm
+              subPath: conf.json
+              mountPath: /usr/local/server/src/config/conf.json
+            - name: harborserver-persistentvolumeclaim-pvc
+              mountPath: /data/oscro-v2/logs
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: harborserver
+metadata:
+  name: harborserver-deployment-deploy
+  labels:
+    app.oscro.io/name: harborserver
+  namespace: oscro-v2
+apiVersion: apps/v1

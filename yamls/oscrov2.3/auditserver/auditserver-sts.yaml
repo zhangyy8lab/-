@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+metadata:
+  name: auditserver-sts
+  namespace: oscro-v2
+  labels:
+    app.oscro.io/name: auditserver
+kind: StatefulSet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: auditserver
+  template:
+    spec:
+      volumes:
+        - name: auditserver-cm
+          configMap:
+            name: auditserver-cm
+      containers:
+        - name: auditserver
+          image: octahub.8lab.cn:5000/oscro/octa-auditserver:v2312190325
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: auditserver-cm
+              subPath: config.ini
+              mountPath: /usr/local/server/src/config/config.ini
+            - name: log-data 
+              mountPath: /data/oscro-v2/logs
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: auditserver
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 200Mi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+        name: log-data
+        annotations:
+          volume.beta.kubernetes.io/storage-class: csi-rbd-sc
+

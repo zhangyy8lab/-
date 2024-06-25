@@ -1,0 +1,45 @@
+data:
+  conf.json: |
+    {
+      "app": {
+        "app_name": "sourceManageServer",
+        "app_addr": "192.168.1.96",
+        "app_port": "10088"
+      },
+      "log": {
+        "log_path": "/data/oscro-v2/logs"
+      },
+      "consul": {
+        "server_ip": "192.168.1.97",
+        "server_port": "8500",
+        "token": "b408de14-17e3-216a-cd74-124a6a3914de",
+        "node_size": 3
+      },
+      "db": {
+        "db_name": "oscro",
+        "db_host": "192.168.1.99",
+        "db_port": "3306",
+        "db_user": "8lab",
+        "db_passwd": "8lab"
+      },
+      "resource": {
+        "resource_virtual_multiples_cpu": 1.5,
+        "resource_virtual_multiples_mem": 1.5,
+        "storage_default": "20400Gi"
+      },
+      "nsq": {
+        "lookup_d": "nsqlookupd-service-svc:4161",
+        "nsq_d": "nsqd-service-svc:4150"
+      },
+      "auth": {
+        "auth_security": "kwcUTbB2ei1n42ddL1bOcGFQ3gEvlQ63AUx"
+      },
+      "mode": "release"
+    }
+kind: ConfigMap
+metadata:
+  name: source-ms-cm
+  labels:
+    app.oscro.io/name: source-ms
+  namespace: oscro-v2
+apiVersion: v1

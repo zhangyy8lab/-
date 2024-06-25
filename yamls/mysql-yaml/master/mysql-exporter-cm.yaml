@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-exporter-cm
+  namespace: default
+data:
+  .my3306.cnf: |
+    [client]
+    port  = 3306
+    user=8lab
+    password=RZ8LYbh
+    host=127.0.0.1

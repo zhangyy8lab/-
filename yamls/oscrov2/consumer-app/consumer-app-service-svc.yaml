@@ -1,0 +1,18 @@
+kind: Service
+spec:
+  type: ClusterIP
+  ports:
+    - name: port
+      port: 10080
+      protocol: TCP
+      targetPort: 10092
+  selector:
+    app.oscro.io/name: consumer-app
+  externalIPs:
+    - 192.168.1.97
+metadata:
+  name: consumer-app-service-svc
+  labels:
+    app.oscro.io/name: consumer-app
+  namespace: oscro-v2
+apiVersion: v1

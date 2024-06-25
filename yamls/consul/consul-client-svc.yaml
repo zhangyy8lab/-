@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-client-svc
+spec:
+  selector:
+    name: consul-client
+  ports:
+    - protocol: TCP
+      port: 8500
+      targetPort: 8500
+      name: consul-tcp
+  externalIPs:
+  - 192.168.1.97

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demandserver-sts
+  labels:
+    app.oscro.io/name: demandserver
+  namespace: oscro-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: demandserver
+  template:
+    spec:
+      volumes:
+        - name: demandserver-cm
+          configMap:
+            name: demandserver-cm
+      containers:
+        - name: demandserver
+          image: octahub.8lab.cn:5000/oscro/octa-demandserver:v2312190939
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: demandserver-cm
+              subPath: config.ini
+              mountPath: /usr/local/server/src/config/config.ini
+            - name: log-data 
+              mountPath: /data/oscro-v2/logs
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: demandserver
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 200Mi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+        name: log-data
+        annotations:
+          volume.base.kubernetes.io/storage-class: csi-rbd-sc
+

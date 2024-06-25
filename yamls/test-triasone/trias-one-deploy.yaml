@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trias-one-deploy
+  namespace: l4-test-a123 
+  labels:
+    app.oscro.io/name: "trias-one" 
+spec:
+  selector:
+    matchLabels:
+      app.oscro.io/name: "trias-one"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.oscro.io/name: "trias-one"
+    spec:
+      hostAliases:
+      - ip: 148.153.164.189
+        hostnames:
+        - bmis.trias.one
+      securityContext:
+        sysctls:
+        - name: net.core.somaxconn
+          value: "65535"
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: nginx
+        image: octahub.8lab.cn:5000/triathon/triasone:v20220316
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+        ports:
+        - containerPort: 8400
+          name: nginx

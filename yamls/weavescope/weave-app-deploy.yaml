@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weave-scope-app
+  labels:
+    name: weave-scope-app
+    app: weave-scope
+    weave-cloud-component: scope
+    weave-scope-component: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weave-scope
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        name: weave-scope-app
+        app: weave-scope
+        weave-cloud-component: scope
+        weave-scope-component: app
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+        - name: app
+          args:
+            - --no-probe
+            - --weave=false
+            - --mode=app
+            - --probe.no-controls=false
+          env:
+          - name: CHECKPOINT_DISABLE
+            value: "true"
+          image: octahub.8lab.cn:5000/99/weavescope:1.13.2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4040
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi

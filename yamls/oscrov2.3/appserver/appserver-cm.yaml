@@ -1,0 +1,51 @@
+data:
+  config.ini: |
+    [service]
+    Mode = release
+    Port = 10087
+    Address = 192.168.1.96
+    Name = appServer
+
+    [mysql]
+    Db = mysql
+    DbAddress = 192.168.1.99
+    DbPort = 3306
+    DbUser = 8lab
+    DbPassWord = 8lab
+    DbName = oscro
+    Charset = utf8mb4
+
+    [consul]
+    Address = 192.168.1.97
+    Port = 8500
+    Token = 83ebd1d0-3682-1cb2-0d64-3a072b030075
+    NodeSide = 3
+
+    [nsq]
+    NsqD = nsqd-service-svc.oscro-v2:4150
+    NsqLookupD = nsqlookupd-service-svc.oscro-v2:4161
+    AppRun = 6E349355-2B60-6BC6-86E8-744CAC49809D
+    AppStop = 193A0259-B561-501C-A3CA-B40F2BD12FCB
+    AppRunStatus = DBF8B00C-7D96-9989-7239-4AE1CAD52D24
+    AppStopStatus = 90F6B307-CE91-4D41-BFE9-D9CEC093F54F
+    AppYamlPut = 0FD5C249-AC65-3F08-1BF3-FDEDEED566C4
+    SyncImage = 196E169F-287F-AEAC-59BB-DCAEEE0126CA
+
+    [log]
+    Path = /data/oscro-v2/logs 
+    SaveDay = 7
+
+    [key]
+    AccountKey = 4dxdL1bOclQ63AUxGkB2ei1n2FwUTbQ3gEv
+
+    [auth]
+    AuthServerName = authServer
+    AuthServerHost = http://192.168.1.96:10081
+
+kind: ConfigMap
+metadata:
+  name: appserver-cm
+  labels:
+    app.oscro.io/name: appserver
+  namespace: oscro-v2
+apiVersion: v1

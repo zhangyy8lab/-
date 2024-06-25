@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth-deploy
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: oauth
+  template:
+    metadata:
+      labels:
+        app: oauth
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: oauth-backend
+       #image: octahub.8lab.cn:5000/99/oauth-backend:v20230606
+       #image: octahub.8lab.cn:5000/99/oauth-backend:v20230627
+       #image: octahub.8lab.cn:5000/99/oauth-backend:v20230710 #register
+        image: octahub.8lab.cn:5000/99/oauth-backend:v20231201
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: jwe-rsa
+          subPath: oauth.priv
+          mountPath: /usr/local/oauth/rsa/oauth.priv
+        - name: jwe-rsa
+          subPath: oauth.pub
+          mountPath: /usr/local/oauth/rsa/oauth.pub
+        - mountPath: "/usr/local/oauth/config/config.yaml"
+          subPath: config.yaml
+          name: oauth-cm
+        ports:
+        - containerPort: 9001
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 512m
+            memory: 256Mi
+          requests:
+            cpu: 512m
+            memory: 256Mi
+      - name: oauth-frontend
+        image: octahub.8lab.cn:5000/99/oauth-frontend:v2312201712 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: oauth-frontend-cm
+          mountPath: /etc/nginx/conf.d
+        - name: oauth-frontend-tls
+          subPath: oauth.crt
+          mountPath: /certs/oauth.crt
+        - name: oauth-frontend-tls
+          subPath: oauth.key
+          mountPath: /certs/oauth.key
+        resources:
+          limits:
+            cpu: 512m
+            memory: 1Gi
+          requests:
+            cpu: 512m
+            memory: 256Mi
+      restartPolicy: Always
+      volumes:
+      - name: jwe-rsa
+        secret: 
+          secretName: oauth-jwe-rsa
+      - name: oauth-cm 
+        configMap:
+          name: oauth-cm
+      - name: oauth-frontend-cm
+        configMap:
+          name: oauth-frontend-cm
+      - name: oauth-frontend-tls
+        secret:
+          secretName: oauth-frontend-tls

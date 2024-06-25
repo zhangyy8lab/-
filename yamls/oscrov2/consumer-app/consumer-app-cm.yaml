@@ -1,0 +1,28 @@
+data:
+  conf.json: |
+    {
+      "db": {
+        "db_name": "oscro",
+        "db_host": "192.168.1.99",
+        "db_port": "3306",
+        "db_user": "8lab",
+        "db_passwd": "8lab"
+      },
+      "nsqServer": {
+        "lookup_d": "nsqlookupd-service-svc:4161",
+        "nsq_d": "nsqd-service-svc:4150"
+      },
+      "log": {
+        "log_path": "/data/oscro-v2/logs"
+      },
+      "app": {
+        "app_name": "consumerAppDeploy"
+     }
+    }
+kind: ConfigMap
+metadata:
+  name: consumer-app-cm
+  labels:
+    app.oscro.io/name: consumer-app
+  namespace: oscro-v2
+apiVersion: v1

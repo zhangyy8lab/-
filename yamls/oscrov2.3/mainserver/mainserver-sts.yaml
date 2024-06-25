@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mainserver-sts
+  namespace: oscro-v2
+  labels:
+    app.oscro.io/name: mainserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: mainserver
+  template:
+    spec:
+      volumes:
+        - name: mainserver-cm
+          configMap:
+            name: mainserver-cm
+      containers:
+        - name: mainserver
+          image: octahub.8lab.cn:5000/oscro/mainserver:v2312141150
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: mainserver-cm
+              subPath: conf.json
+              mountPath: /usr/local/server/src/config/conf.json
+            - name: log-data 
+              mountPath: /data/oscro-v2/logs
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: mainserver
+  volumeClaimTemplates:
+    - spec:
+        resources:
+          requests:
+            storage: 200Mi
+        accessModes:
+          - ReadWriteOnce
+      metadata:
+        name: log-data 
+        annotations:
+          volume.beta.kubernetes.io/storage-class: csi-rbd-sc
+      

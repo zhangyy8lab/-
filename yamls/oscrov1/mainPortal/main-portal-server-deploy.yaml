@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-server-deploy
+  namespace: default
+  labels:
+    app: main-server
+spec:
+  selector:
+    matchLabels:
+      app: main-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: main-server
+    spec:
+      securityContext:
+        sysctls:
+        - name: net.core.somaxconn
+          value: "65535"
+      serviceAccountName: main-portal-sa
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+      - name: main-server
+        image: octahub.8lab.cn:5000/99/mainportalserver:v2304232034 # v2303311112 
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: server-conf
+          mountPath: /usr/local/mainPortal/mainPortal/config/config.json
+          subPath: config.json
+        - name: server-conf
+          mountPath: /etc/uwsgi.ini
+          subPath: uwsgi.ini
+      - name: main-portal-web
+        image: octahub.8lab.cn:5000/99/mainportalweb:v2305131606 #v2305050955
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: nginx
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: server-conf
+          mountPath: /etc/nginx/conf.d/front.conf
+          subPath: front.conf
+      volumes:
+      - name: server-conf
+        configMap:
+          name: main-server-cm

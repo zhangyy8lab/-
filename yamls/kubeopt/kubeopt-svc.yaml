@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kubeopt-svc
+  namespace: default
+spec:
+  ports:
+  - port: 8082
+    targetPort: 9090
+  selector:
+    app: kubeopt
+  externalIPs:
+    - 192.168.1.99

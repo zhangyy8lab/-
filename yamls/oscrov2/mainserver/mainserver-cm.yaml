@@ -1,0 +1,45 @@
+data:
+  conf.json: |
+    {
+      "app": {
+        "app_name": "mainServer",
+        "app_addr": "192.168.1.96",
+        "app_port": "10090"
+      },
+      "log": {
+        "log_path": "/data/oscro-v2/logs"
+      },
+      "consul": {
+        "server_ip": "192.168.1.97",
+        "server_port": "8500",
+        "token": "6e34993c-16e9-c780-9095-377e5004980e",
+        "node_size": 3
+      },
+      "oauth2": {
+        "addr": "https://192.168.1.98:8083",
+        "client_id": "ugjxknn8z4yrbev3ixai",
+        "client_secret": "6m67jvpnm4zp01t1ti71u77ar9yo7ahc12anngx8",
+        "redirect_url": "http://192.168.1.96:10083/oauth",
+        "response_type": "code",
+        "scope": "all",
+        "state": "octa8lab",
+        "authUrl": "/login",
+        "token_url": "/api/oauth/token",
+        "user_url": "/api/oauth/user"
+      },
+      "auth": {
+        "auth_security": "kwcUTbB2ei1n42ddL1bOcGFQ3gEvlQ63AUx"
+      },
+      "account": {
+        "account_security": "4dxdL1bOclQ63AUxGkB2ei1n2FwUTbQ3gEv",
+        "account_server_grpc": "accountServerGrpc"
+      },
+      "mode": "release"
+    }
+kind: ConfigMap
+metadata:
+  name: mainserver-cm
+  labels:
+    app.oscro.io/name: mainserver
+  namespace: oscro-v2
+apiVersion: v1

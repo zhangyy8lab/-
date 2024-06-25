@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-addheader
+  namespace: monitoring
+spec:
+  headers:
+    customRequestHeaders:
+      X-Script-Name: "testAddHeaders"
+    customResponseHeaders:
+      X-Custom-Response-Header: "testAddHeaders"

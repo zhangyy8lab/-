@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: harbor-svc
+spec:
+  ports:
+  - port: 5000
+    targetPort: 8080
+    name: harbor
+    protocol: TCP
+  selector:
+    app: harbor
+  externalIPs:
+  - 101.251.205.213
+  - 192.168.1.79 

@@ -1,0 +1,9 @@
+# bluestore dev
+osd_devices:
+  - name: sda
+    # data dev
+    device: /dev/sda
+    # rocksdb dev
+    db_device: 
+    # rocksdb wal dev
+    wal_device: 

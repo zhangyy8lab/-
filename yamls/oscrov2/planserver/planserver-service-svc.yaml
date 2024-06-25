@@ -1,0 +1,18 @@
+kind: Service
+spec:
+  type: ClusterIP
+  ports:
+    - name: port
+      port: 10087
+      protocol: TCP
+      targetPort: 10087
+  selector:
+    app.oscro.io/name: planserver
+  externalIPs:
+    - 192.168.1.96
+metadata:
+  name: planserver-service-svc
+  labels:
+    app.oscro.io/name: planserver
+  namespace: oscro-v2
+apiVersion: v1

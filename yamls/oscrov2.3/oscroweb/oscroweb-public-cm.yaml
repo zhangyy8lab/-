@@ -1,0 +1,36 @@
+apiVersion: v1
+data:
+  app.config.js: |
+    window.server = {
+    //TABIX_WEB_URL: "http://192.168.1.97:10082"  // tabix地址
+    TABIX_WEB_URL: "http://192.168.1.96:10083/appdatas"  // tabix地址
+    }
+    window.DEVELOP_API_SERVER_NAMES = { // 开发环境API服务名称
+    mainServer: 'mainServer',
+    accountServer: 'account-dev',
+    sourceServer: 'source-dev',
+    appServer: 'appserver-dev',
+    auditServer: 'audit-dev',
+    harborServer: 'harbor-dev',
+    demandServer: 'demand-dev',
+    devSceneServer: 'devScene-dev',
+    authServer: 'authServer',
+    }
+    window.PRODUCTION_API_SERVER_NAMES = { // 生产环境API服务名称
+    mainServer: 'mainServer',
+    accountServer: 'accountServer',
+    sourceServer: 'sourceServer',
+    appServer: 'appServer',
+    auditServer: 'auditServer',
+    harborServer: 'harborServer',
+    demandServer: 'demandServer',
+    devSceneServer: 'devSceneServer',
+    authServer: 'authServer',
+    }
+kind: ConfigMap
+metadata:
+  labels:
+    app.oscro.io/name: oscroweb 
+  name: oscroweb-configmap-js
+  namespace: oscro-v2
+

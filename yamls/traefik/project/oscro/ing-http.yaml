@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-http-oscro 
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`oscro.8lab.cn`) 
+    kind: Rule
+    middlewares:
+    - name: traefik-midd-redirect
+    services:
+    - kind: Service
+      name: kubernetes
+      port: 443
+      namespace: default

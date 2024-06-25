@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-errpage
+  namespace: monitoring
+spec:
+  errors:
+    status:
+      - "404"
+    query: /index.html
+    service:
+      name: grafana-svc
+      port: 3000

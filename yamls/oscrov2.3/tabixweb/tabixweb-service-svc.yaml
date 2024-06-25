@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.oscro.io/name: tabixweb
+  name: tabixweb-service-svc
+  namespace: oscro-v2
+spec:
+  externalIPs:
+    - 192.168.1.97
+  ports:
+    - name: mainport
+      port: 10082
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.oscro.io/name: tabixweb

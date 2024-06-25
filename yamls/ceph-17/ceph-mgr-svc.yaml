@@ -1,0 +1,10 @@
+#用于发现ceph cluster monitor
+apiVersion: v1
+kind: Service
+metadata:
+  name: ceph-mgr-svc
+spec:
+  ports:
+  - port: 9283
+  selector:
+    app: ceph-mgr

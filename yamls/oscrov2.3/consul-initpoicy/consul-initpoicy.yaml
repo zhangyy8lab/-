@@ -1,0 +1,19 @@
+kind: Application
+spec:
+  selector:
+    matchLabels:
+      app.oscro.io/name: consul-initpoicy
+  addOwnerRef: true
+  componentKinds:
+    - kind: PipelineRun
+      group: tekton.dev
+    - kind: Job
+      group: batch
+    - kind: ConfigMap
+      group: v1
+metadata:
+  name: consul-initpoicy
+  namespace: oscro-v2
+  finalizers:
+    - foregroundDeletion
+apiVersion: app.oscro.io/v1beta1

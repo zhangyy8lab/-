@@ -1,0 +1,160 @@
+apiVersion: v1
+data:
+  my3306.cnf: |
+    [client]
+    port            = 3306
+    socket          = /data/mysql3306/tmp/mysql.sock
+    user=mysql
+    password=mysql
+
+    [mysqld]
+    server-id       = 99
+    port            = 3306
+    user            = mysql
+    basedir         = /usr/local/mysql
+    datadir         = /data/mysql3306/data
+    tmpdir          = /data/mysql3306/tmp
+    socket          = /data/tmp/mysql.sock
+    pid-file        = /data/tmp/mysql.pid
+    log-bin         = /data/mysql3306/logs/bin-log
+    log-error       = /data/mysql3306/tmp/err.log
+    slow_query_log_file = /data/mysql3306/tmp/slow.log
+    binlog_format=row
+    default-storage-engine=innodb
+    character_set_server = utf8
+    lower_case_table_names = 1
+    skip_external_locking
+    skip-name-resolve
+    group_concat_max_len=102400000
+    #skip-networking
+    binlog-ignore-db=mysql
+    binlog-ignore-db=information_schema
+    replicate_ignore_db=mysql
+    replicate_ignore_db=information_schema
+    skip-slave-start
+    #skip-grant-tables
+    log-bin-trust-function-creators=1
+    #slave-skip-errors=i1032,1062,1053,1146
+    #slave-skip-errors=all
+    #read_only
+    explicit_defaults_for_timestamp=true
+
+    connect_timeout = 30
+    interactive_timeout = 1000
+    wait_timeout = 180
+    event_scheduler = 1
+    log_bin_trust_function_creators = 1
+    back_log = 500
+    ##### binlog #####
+    #binlog_format = row
+    max_binlog_size = 512M
+    expire_logs_days = 10
+    binlog_cache_size = 2M
+
+    ##### gtid #####
+    log-slave-updates = true
+    gtid-mode=on
+    enforce_gtid_consistency=on
+    master-info-repository = TABLE
+    relay-log-info-repository = TABLE
+    sync-master-info = 1
+    slave-parallel-workers = 4
+    binlog-checksum = CRC32
+    master-verify-checksum = 1
+    slave-sql-verify-checksum = 1
+    binlog-rows-query-log_events = 1
+    #report-port = 3306
+    #report-host = 192.168.1.193
+
+    ##### replication #####
+    #skip-slave-start
+    auto_increment_increment = 2
+    auto_increment_offset = 1
+    log_slave_updates = 1
+    slave_net_timeout = 3600
+    relay_log_recovery = 1
+
+    replicate_wild_ignore_table=mysql.%
+    #replicate-ignore-db=information_schema
+    #replicate-ignore-db=mysql
+    #replicate-ignore-db=performance_schema
+    #replicate-ignore-db=test
+
+    ##### slow log #####
+    slow_query_log = 1
+    #slow_query_log_file
+    long_query_time = 2
+
+    ##### error log #####
+    #log_error
+
+    ##### thread #####
+    max_connections = 3000
+    thread_stack = 256K
+    max_allowed_packet = 512M
+    table_open_cache = 2000
+    read_buffer_size = 4M
+    read_rnd_buffer_size = 2M
+    sort_buffer_size = 2M
+    join_buffer_size = 128M
+
+    ##### InnoDB #####
+    innodb_data_home_dir = /data/mysql3306/data
+    innodb_log_group_home_dir = /data/mysql3306/logs
+    innodb_data_file_path = ibdata1:12M:autoextend
+    innodb_buffer_pool_size = 2048M
+    innodb_log_file_size = 1G
+    innodb_file_per_table = 1
+    innodb_flush_log_at_trx_commit = 2
+    sync_binlog = 0
+    innodb_thread_concurrency = 0
+    innodb_flush_method = O_DIRECT
+    innodb_lock_wait_timeout = 50
+    transaction_isolation=READ-COMMITTED
+
+    ##### MyISAM #####
+    key_buffer_size = 128M
+
+    ##### OTHER #####
+    #sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+    tmp_table_size = 256M
+    max_heap_table_size = 32M
+    thread_cache_size = 64
+    #thread_concurrency = 12
+    #bulk_insert_buffer_size
+    open_files_limit = 65535
+
+    # to avoid issues with 'bulk mode inserts' using autoinc
+    innodb_autoinc_lock_mode=2
+    query_cache_size=0
+    query_cache_type=0
+    bind-address=0.0.0.0
+    innodb_doublewrite=0
+
+    ## WSREP options
+    #wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+    #wsrep_cluster_name="bjbs_citydb"
+    #wsrep_cluster_address="gcomm://"
+    #wsrep_cluster_address="gcomm://10.1.1.71,10.1.1.72,10.1.1.73"
+    #wsrep_slave_threads=32
+    #wsrep_node_address=10.1.1.71
+    #wsrep_sst_method=xtrabackup
+    #wsrep_sst_auth=sstuser:3tWbcWD5L6Z99s3h
+
+    #slave_skip_errors = 1032
+
+    [mysql]
+    no-auto-rehash
+kind: ConfigMap
+metadata:
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:my3306.cnf: {}
+    manager: kubectl
+    operation: Update
+  name: mysql-master
+  namespace: default

@@ -1,0 +1,31 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "isolate"
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchLabels:
+      {}
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "allow-grafana"
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+       - grafana
+       - prometheus
+       - pushgateway
+  ingress:
+  - fromCIDR:
+    - 0.0.0.0/0

@@ -1,0 +1,18 @@
+kind: Service
+spec:
+  type: ClusterIP
+  ports:
+    - name: main
+      port: 10090
+      protocol: TCP
+      targetPort: 10090
+  selector:
+    app.oscro.io/name: mainserver
+  externalIPs:
+    - 192.168.1.96
+metadata:
+  name: mainserver-service-svc
+  labels:
+    app.oscro.io/name: mainserver
+  namespace: oscro-v2
+apiVersion: v1

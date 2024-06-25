@@ -1,0 +1,35 @@
+apiVersion: user.oscro.io/v1alpha1
+kind: User
+metadata:
+  name: kubectl-action
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubectl-action-cr
+rules:
+- apiGroups: 
+  - ""
+  resources:
+  - pods
+  verbs: 
+  - "*"
+- apiGroups:
+  - apps
+  - batch
+  resources:
+  - "*"
+  verbs: 
+  - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubectl-action-crb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubectl-action-cr
+subjects:
+- kind: User
+  name: kubectl-action

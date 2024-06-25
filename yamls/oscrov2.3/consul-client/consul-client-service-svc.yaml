@@ -1,0 +1,18 @@
+kind: Service
+spec:
+  type: ClusterIP
+  ports:
+    - name: consul-tcp
+      port: 8500
+      protocol: TCP
+      targetPort: 8500
+  selector:
+    app.oscro.io/name: consul-client
+  externalIPs:
+    - 192.168.2.253
+metadata:
+  name: consul-client-service-svc
+  labels:
+    app.oscro.io/name: consul-client
+  namespace: oscro-v2
+apiVersion: v1

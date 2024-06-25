@@ -1,0 +1,44 @@
+kind: Deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.oscro.io/name: oscroweb
+  template:
+    spec:
+      volumes:
+        - name: oscroweb-cm
+          configMap:
+            name: oscroweb-cm
+        - name: oscroweb-configmap-js 
+          configMap:
+            name: oscroweb-configmap-js 
+      containers:
+        - name: oscroweb
+          image: octahub.8lab.cn:5000/oscro/oscroweb:v2401121054 #v2401101420 #v2401051037 #v2312281137 #v2312251646 #v2312222029 #v2312221747 # v2312211809
+          #image: octahub.8lab.cn:5000/oscro/octa-optmain-porta-frontend-dev2.2-p:test2023110616 
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          volumeMounts:
+            - name: oscroweb-cm
+              subPath: front.conf
+              mountPath: /etc/nginx/conf.d/front.conf
+            - name: oscroweb-configmap-js 
+              subPath: app.config.js
+              mountPath: /usr/local/octa_optmain_porta_frontend/dist/app.config.js 
+      imagePullSecrets:
+        - name: registry-secret
+    metadata:
+      labels:
+        app.oscro.io/name: oscroweb
+metadata:
+  name: oscroweb-deployment-deploy
+  labels:
+    app.oscro.io/name: oscroweb
+  namespace: oscro-v2
+apiVersion: apps/v1

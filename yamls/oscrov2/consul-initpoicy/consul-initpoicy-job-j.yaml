@@ -1,0 +1,55 @@
+kind: Job
+spec:
+  template:
+    spec:
+      volumes:
+        - name: consul-initpoicy-configmap-acl
+          configMap:
+            name: consul-initpoicy-configmap-acl
+        - name: consul-initpoicy-configmap-cm
+          configMap:
+            name: consul-initpoicy-configmap-cm
+            defaultMode: 0777
+      containers:
+        - env:
+            - name: CONSUL_HTTP_ADDR
+              value: http://consul-client-service-svc:8500
+          args:
+            - /tmp/initpolicy.sh
+          name: init-policy
+          image: octahub.8lab.cn:5000/oscro/consul:v1.15.2
+          command:
+            - sh
+            - '-c'
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 200m
+              memory: 200Mi
+          volumeMounts:
+            - name: consul-initpoicy-configmap-acl
+              mountPath: /data/config
+            - name: consul-initpoicy-configmap-cm
+              mountPath: /tmp/
+      restartPolicy: Never
+      initContainers:
+        - args:
+            - >-
+              until wget -q -O -
+              http://consul-client-service-svc:8500/v1/status/leader 2>/dev/null
+              | grep -E '".+"'; do echo waiting for consul; sleep 2; done;
+          name: wait-for-consul
+          image: octahub.8lab.cn:5000/pub-image/busybox:1.28
+          command:
+            - sh
+            - '-c'
+      imagePullSecrets:
+        - name: registry-secret
+metadata:
+  name: consul-initpoicy-job-j
+  labels:
+    app.oscro.io/name: consul-initpoicy
+  namespace: oscro-v2
+apiVersion: batch/v1

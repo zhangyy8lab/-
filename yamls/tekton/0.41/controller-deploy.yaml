@@ -1,0 +1,149 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tekton-pipelines-controller
+  namespace: tekton-pipelines
+  labels:
+    app.kubernetes.io/name: controller
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: default
+    app.kubernetes.io/version: "v0.41.0"
+    app.kubernetes.io/part-of: tekton-pipelines
+    # tekton.dev/release value replaced with inputs.params.versionTag in pipeline/tekton/publish.yaml
+    pipeline.tekton.dev/release: "v0.41.0"
+    # labels below are related to istio and should not be used for resource lookup
+    version: "v0.41.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: controller
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: default
+      app.kubernetes.io/part-of: tekton-pipelines
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: controller
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/instance: default
+        app.kubernetes.io/version: "v0.41.0"
+        app.kubernetes.io/part-of: tekton-pipelines
+        # tekton.dev/release value replaced with inputs.params.versionTag in pipeline/tekton/publish.yaml
+        pipeline.tekton.dev/release: "v0.41.0"
+        # labels below are related to istio and should not be used for resource lookup
+        app: tekton-pipelines-controller
+        version: "v0.41.0"
+    spec:
+      imagePullSecrets:
+      - name: registry-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: NotIn
+                    values:
+                      - windows
+      serviceAccountName: tekton-pipelines-controller
+      containers:
+        - name: tekton-pipelines-controller
+          image: octahub.8lab.cn:5000/tekton/controller:v0.41.0 
+          args: [
+            # These images are built on-demand by `ko resolve` and are replaced
+            # by image references by digest.
+           "-kubeconfig-writer-image", "gcr.lank8s.cn/tekton-releases/github.com/tektoncd/pipeline/cmd/kubeconfigwriter:v0.41.0@sha256:4beb725e4c210397c67737e551cf18e1ef716294d566b7927e2bfcc22639a42c", 
+           "-git-image", "gcr.lank8s.cn/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.41.0@sha256:249081d967c05371fecf9c6ed423fa9cafbfcb2a206c5d5df5d5249859458160", 
+           "-entrypoint-image", "octahub.8lab.cn:5000/tekton/entrypoint:v0.41.0", 
+           "-nop-image", "octahub.8lab.cn:5000/tekton/nop:v0.41.0", 
+           "-imagedigest-exporter-image", "gcr.lank8s.cn/tekton-releases/github.com/tektoncd/pipeline/cmd/imagedigestexporter:v0.41.0@sha256:a26e65e04e6358b1c885d25e8cafd795eb3ea17113fabd32fb7a7f731d754c16", "-pr-image", "gcr.lank8s.cn/tekton-releases/github.com/tektoncd/pipeline/cmd/pullrequest-init:v0.41.0@sha256:34103fa8d2b08ec094b8a415a52d268d53505ca8ca4b7933457e26db3973be4d", 
+           "-workingdirinit-image", "octahub.8lab.cn:5000/tekton/workingdirinit:v0.41.0",
+            # This is gcr.lank8s.cn/google.com/cloudsdktool/cloud-sdk:302.0.0-slim
+           "-gsutil-image", "gcr.lank8s.cn/google.com/cloudsdktool/cloud-sdk@sha256:27b2c22bf259d9bc1a291e99c63791ba0c27a04d2db0a43241ba0f1f20f4067f",
+            # The shell image must allow root in order to create directories and copy files to PVCs.
+            # cgr.dev/chainguard/busybox as of April 14 2022
+            # image shall not contains tag, so it will be supported on a runtime like cri-o
+           "-shell-image", "octahub.8lab.cn:5000/99/busybox:1.28",
+            # for script mode to work with windows we need a powershell image
+            # pinning to nanoserver tag as of July 15 2021
+           "-shell-image-win", "mcr.microsoft.com/powershell:nanoserver@sha256:b6d5ff841b78bdf2dfed7550000fd4f3437385b8fa686ec0f010be24777654d6"
+          ]
+          volumeMounts:
+            - name: config-logging
+              mountPath: /etc/config-logging
+            - name: config-registry-cert
+              mountPath: /etc/config-registry-cert
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            # If you are changing these names, you will also need to update
+            # the controller's Role in 200-role.yaml to include the new
+            # values in the "configmaps" "get" rule.
+            - name: CONFIG_DEFAULTS_NAME
+              value: config-defaults
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: config-observability
+            - name: CONFIG_ARTIFACT_PVC_NAME
+              value: config-artifact-pvc
+            - name: CONFIG_ARTIFACT_BUCKET_NAME
+              value: config-artifact-bucket
+            - name: CONFIG_FEATURE_FLAGS_NAME
+              value: feature-flags
+            - name: CONFIG_LEADERELECTION_NAME
+              value: config-leader-election
+            - name: SSL_CERT_FILE
+              value: /etc/config-registry-cert/cert
+            - name: SSL_CERT_DIR
+              value: /etc/ssl/certs
+            - name: METRICS_DOMAIN
+              value: tekton.dev/pipeline
+            - name: KUBERNETES_MIN_VERSION
+              value: v1.18.0
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            # User 65532 is the nonroot user ID
+            runAsUser: 65532
+            runAsGroup: 65532
+            runAsNonRoot: true
+           #seccompProfile:
+           #  type: RuntimeDefault
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: probes
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: probes
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: probes
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: config-logging
+          configMap:
+            name: config-logging
+        - name: config-registry-cert
+          configMap:
+            name: config-registry-cert
+

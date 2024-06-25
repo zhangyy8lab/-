@@ -1,0 +1,19 @@
+kind: Application
+spec:
+  selector:
+    matchLabels:
+      app.oscro.io/name: nsqlookupd
+  addOwnerRef: true
+  componentKinds:
+    - kind: PipelineRun
+      group: tekton.dev
+    - kind: Deployment
+      group: apps
+    - kind: Service
+      group: v1
+metadata:
+  name: nsqlookupd
+  namespace: oscro-v2
+  finalizers:
+    - foregroundDeletion
+apiVersion: app.oscro.io/v1beta1
