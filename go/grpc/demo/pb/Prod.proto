@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message T2Request {
+	string name = 1;
+}
+
+message T2Response {
+	string name = 1;
+		RespDetail detail = 2;
+}
+
+message RespDetail {
+	string  age = 1;
+	string address = 2;
+}
+
+service T2Service {
+	rpc GetMsg (T2Request) returns (T2Response);
+}
