@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f7c6743a-3aaf-40c6-bb8b-3c091264d821" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../blockChain/.idea/blockChain.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../blockChain/blc/.idea/blc.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/grpc.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/protoeditor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/test2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/api-common-protos" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/demo.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/demo.pb.gw.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/demo.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pb/demo_grpc.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/block.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/block.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/blockchain.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/blockchain.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/cli.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/commandline.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/commandline.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/proofofwork.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/proofofwork.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/transaction.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/walletManage.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/walletManage.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/src/wellet.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/src/wellet.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/utils/ecc.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/utils/ecc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc/utils/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc/utils/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../blockChain/blc_demo/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../../blockChain/blc_demo/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../goenv/goenv.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../oscro/code/octa_accountserver/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../oscro/code/octa_accountserver/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../oscro/code/octa_accountserver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../oscro/code/octa_accountserver/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../oscro/code/octa_mainserver/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../oscro/code/octa_mainserver/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///opt/homebrew/Cellar/go/1.22.4/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2jjIXebAXVGkybucQlIvafaXAaJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/zhangyy/8lab/github/docs/go/grpc/http_demo",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
