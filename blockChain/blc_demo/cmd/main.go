@@ -1,6 +1,6 @@
 package main
 
-import "github.com/zhangyy27/docs/blockChain/blc/src/blc_demo"
+import "blc_demo"
 
 func main() {
 

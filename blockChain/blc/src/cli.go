@@ -1,61 +1,69 @@
-package v1
+package src
 
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
 
 const Usage = `
-	addBlock --data DATA "add a block"
-	printChain "print block Chain"
+	create "create blockchain"
+	delete "delete blockchain DB"
+	print "print block Chain"
+	balance <address> "get address balance"
+	send <from> <to> <amount> "transaction"
+	createWallet "create wallet"
 `
 
-type CLI struct {
-	Bc *Blockchain
-}
-
-func (cli *CLI) addBlock(data []byte) error {
-	cli.Bc = GetBlockchainInstance()
-	return cli.Bc.AddBlock(data)
-}
-
-func (cli *CLI) printChain() {
-	cli.Bc = GetBlockchainInstance()
-	it := cli.Bc.NewIterator()
-	for {
-		block := it.Next()
-		fmt.Printf("PrevHash: %x\n", block.PrevBlockHash)
-		fmt.Printf("cur_Hash: %x\n", block.Hash)
-		fmt.Println("blockData:", string(block.Data))
-
-		if len(it.currentHash) == 0 {
-			break
-		}
-	}
-}
-
+// Run 启动
 func (cli *CLI) Run() {
-	if len(os.Args) < 2 {
+	cmds := os.Args
+	if len(cmds) < 2 {
 		fmt.Println(Usage)
-		os.Exit(0)
+		return
 	}
 
-	cmd := os.Args[1]
-	switch cmd {
-	case "addBlock":
-		if len(os.Args) > 3 && os.Args[2] == "--data" {
-			data := os.Args[3]
-			if data == "" {
-				fmt.Printf("data not be empty")
-				os.Exit(1)
-			}
-
-			if err := cli.addBlock([]byte(data)); err != nil {
-				fmt.Printf("add block failed, err:%v\n", err)
-			}
-		}
-	case "printChain":
+	switch cmds[1] {
+	case "create":
+		cli.createBlockChain()
+		fmt.Println(Usage)
+	case "delete":
+		cli.deleteBlockChainDB()
+	case "print":
 		cli.printChain()
+	case "balance":
+		if len(cmds) != 3 {
+			fmt.Println("input args error!")
+			fmt.Println(Usage)
+			return
+		}
+		address := cmds[2]
+		fmt.Println("address:", address)
+		if address == "" {
+			fmt.Printf("address not be empty")
+			fmt.Println(Usage)
+			return
+		}
+		cli.getBalance(address)
+	case "send":
+		fmt.Println("len(cmds):", len(cmds))
+		fmt.Println("cmds:", cmds)
+		if len(cmds) != 5 {
+			fmt.Println("input args error!")
+			fmt.Println(Usage)
+			return
+		}
+		from := cmds[2]
+		to := cmds[3]
+		amount, err := strconv.ParseFloat(cmds[4], 64)
+		if err != nil {
+			fmt.Printf("amount is not a number")
+			os.Exit(1)
+		}
+		cli.send(from, to, amount)
+
+	case "createWallet":
+		cli.createWallet()
 	default:
 		fmt.Println(Usage)
 	}

@@ -1,10 +1,8 @@
 package main
 
-import (
-	v1 "github.com/zhangyy27/docs/blockChain/blc/src/blockchain/v1"
-)
+import "github.com/zhangyy27/docs/blockChain/blc/src"
 
 func main() {
-	cli := v1.CLI{}
+	cli := src.CLI{}
 	cli.Run()
 }

@@ -1,10 +1,10 @@
-package v1
+package src
 
 import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
-	"github.com/zhangyy27/docs/blockChain/blc/src/blockchain/utils"
+	"github.com/zhangyy27/docs/blockChain/blc/utils"
 	"log"
 	"os"
 	"time"
@@ -15,6 +15,7 @@ type Block struct {
 	PrevBlockHash []byte
 	Hash          []byte
 	Data          []byte
+	Transactions  []*Transaction
 	MerkleRoot    []byte
 	Nonce         uint64
 	Timestamp     uint64
@@ -22,12 +23,11 @@ type Block struct {
 }
 
 func (b *Block) SetHash() {
-
 	tmp := [][]byte{
 		utils.Uint64ToHex(b.Version),
 		b.PrevBlockHash,
 		b.Hash,
-		b.Data,
+		//b.Transactions.Serialize(),
 		b.MerkleRoot,
 		utils.Uint64ToHex(b.Nonce),
 		utils.Uint64ToHex(b.Timestamp),
@@ -37,26 +37,6 @@ func (b *Block) SetHash() {
 	blockBytes := bytes.Join(tmp, []byte{})
 	hash := sha256.Sum256(blockBytes)
 	b.Hash = hash[:]
-}
-
-func NewBlock(data []byte, prevBlockHash []byte) *Block {
-	block := &Block{
-		Version:       1,
-		Data:          data,
-		PrevBlockHash: prevBlockHash,
-		Nonce:         0,
-		Timestamp:     uint64(time.Now().Unix()),
-		MerkleRoot:    nil,
-		Bits:          0,
-		Hash:          nil,
-	}
-	//block.SetHash()
-
-	pow := NewProofOfWork(block)
-	hash, nonce := pow.Run()
-	block.Hash = hash
-	block.Nonce = nonce
-	return block
 }
 
 func (b *Block) Serialize() []byte {
@@ -69,6 +49,19 @@ func (b *Block) Serialize() []byte {
 		return nil
 	}
 	return buffer.Bytes()
+}
+
+// HashTransactionsMerkleRoot 默克尔树
+func (b *Block) HashTransactionsMerkleRoot() {
+
+	var info [][]byte
+	for _, tx := range b.Transactions {
+		txHashValue := tx.TXId
+		info = append(info, txHashValue)
+	}
+
+	infoHashValue := sha256.Sum256(bytes.Join(info, []byte{}))
+	b.MerkleRoot = infoHashValue[:]
 }
 
 func DeSerialize(data []byte) *Block {
@@ -87,4 +80,23 @@ func DeSerialize(data []byte) *Block {
 	}
 
 	return &block
+}
+
+func NewBlock(txs []*Transaction, prevBlockHash []byte) *Block {
+	block := &Block{
+		Version:       1,
+		Transactions:  txs,
+		PrevBlockHash: prevBlockHash,
+		Nonce:         0,
+		Timestamp:     uint64(time.Now().Unix()),
+		MerkleRoot:    nil,
+		Bits:          0,
+		Hash:          nil,
+	}
+	block.HashTransactionsMerkleRoot() // 设置merkleRoot
+	pow := NewProofOfWork(block)
+	hash, nonce := pow.Run()
+	block.Hash = hash
+	block.Nonce = nonce
+	return block
 }

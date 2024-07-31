@@ -1,10 +1,12 @@
-package v1
+package src
 
 import (
 	"bytes"
 	"crypto/sha256"
-	"github.com/zhangyy27/docs/blockChain/blc/src/blockchain/utils"
+	"fmt"
 	"math/big"
+
+	"github.com/zhangyy27/docs/blockChain/blc/utils"
 )
 
 type ProofOfWork struct {
@@ -26,7 +28,7 @@ func (pow *ProofOfWork) prepareData(num uint64) []byte {
 	tmp := [][]byte{
 		utils.Uint64ToHex(block.Version),
 		block.PrevBlockHash,
-		block.Data,
+		//block.Data,
 		block.MerkleRoot,
 		utils.Uint64ToHex(num),
 		utils.Uint64ToHex(block.Timestamp),
@@ -46,9 +48,12 @@ func (pow *ProofOfWork) Run() ([]byte, uint64) {
 		hash = sha256.Sum256(pow.prepareData(Nonce))
 		tTmp := big.Int{}
 		tTmp.SetBytes(hash[:])
+		fmt.Printf("hash:%x Nonce:%d\n", hash, Nonce)
 		if tTmp.Cmp(pow.target) == -1 {
 			break
 		} else {
+
+			//
 			Nonce++
 		}
 	}
