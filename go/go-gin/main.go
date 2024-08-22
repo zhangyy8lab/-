@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/zhangyy8lab/docs/go/go-gin/src/api/user"
 	"github.com/zhangyy8lab/docs/go/go-gin/src/config"
