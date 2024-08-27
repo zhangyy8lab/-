@@ -29,7 +29,7 @@ map("n", "<C-l>", "<C-w>l", opt)
 
 -- 退出
 map("n", "ww", ":w<CR>", opt)
-map("n", "r", ":e!<CR>", opt)
+map("n", "rl", ":e!<CR>", opt)
 map("n", "q", ":Bdelete!<CR>", opt)
 map("n", "qq", ":q<CR>", opt)
 map("n", "wq", ":w<CR> | :Bdelete!<CR>", opt)
@@ -73,6 +73,11 @@ map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR><cmd>cclose<CR>", opt)
 
 -- 代码格式化
 map("n", "ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR><cmd>cclose<CR>", opt)
+
+-- 设置快捷键
+map("n", "iw", [[:lua Highlight_word()<CR>]], opt)
+map("n", "iwc", [[:lua Clear_highlight()<CR>]], opt)
+
 
 -- map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opt)
 -- 非自定义g开头的快捷键 使用:nmap xx， 查询xx定义的快捷键

@@ -1,40 +1,28 @@
--- local status, hight = pcall(require, "vim-illuminate")
--- if not status then
---     vim.notify("not found vim-illuminate")
---     return
--- end
---
--- hight.setup({})
-
--- 定义高亮组
-local function define_highlights()
-    local colors = { "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White" }
-    for i, color in ipairs(colors) do
-        vim.cmd(string.format("highlight WordHighlight%d guifg=%s guibg=NONE", i, color))
-    end
+function random_color()
+    -- local colors = { "Green", "Blue", "Magenta", "Cyan", "White", "Orange", "Purple", "Pink" }
+    local colors = {"#8CCBEA", "#A4E57E", "#FFDB72", "#FF7272", "#FFB3FF", "#9999FF", "#CC8AA2", "#DCC2E5", "#B11E2F"}
+    return colors[math.random(#colors)]
 end
 
--- 高亮光标下的单词
-local function highlight_word()
+local highlighted_words = {}
+
+function Highlight_word()
     local word = vim.fn.expand("<cword>")
-    if word == "" then
-        return
+    if word ~= "" then
+        local color = random_color()
+        local group_name = "WordHighlight" .. word
+        vim.cmd(string.format("highlight %s guifg=%s", group_name, color))
+        local match_id = vim.fn.matchadd(group_name, "\\<" .. word .. "\\>")
+        highlighted_words[word] = { group = group_name, match_id = match_id }
     end
-
-    -- 随机选择一个高亮组
-    local group_id = math.random(1, 7)
-    local highlight_group = string.format("WordHighlight%d", group_id)
-
-    -- 清除以前的高亮
-    -- vim.cmd("match none")
-
-    -- 应用新的高亮
-    vim.cmd(string.format("match %s /\\<%s\\>/", highlight_group, word))
 end
 
--- 绑定快捷键
--- vim.api.nvim_set_keymap("n", "<leader>hw", [[:lua highlight_word()<CR>]], { noremap = true, silent = true })
+function Clear_highlight()
+    local word = vim.fn.expand("<cword>")
+    if highlighted_words[word] then
+        vim.fn.matchdelete(highlighted_words[word].match_id)
+        vim.cmd("highlight clear " .. highlighted_words[word].group)
+        highlighted_words[word] = nil
+    end
+end
 
--- 在启动时定义高亮组
-define_highlights()
--- highlight_word()

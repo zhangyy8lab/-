@@ -9,7 +9,13 @@ require("mason-lspconfig").setup({
 lspconfig.pyright.setup({})
 
 -- 配置 Go LSP (gopls)
-lspconfig.gopls.setup({})
+lspconfig.gopls.setup({
+    settings = {
+        gopls = {
+            staticcheck = true
+        }
+    }
+})
 
 -- 配置 JSON LSP (jsonls)
 lspconfig.jsonls.setup({})

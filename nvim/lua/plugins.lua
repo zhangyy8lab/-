@@ -61,7 +61,7 @@ packer.startup({
         -- 指定单词高亮
         use("RRethy/vim-illuminate")
 
-        -- use("lfv89/vim-interestingwords")
+        use("lfv89/vim-interestingwords")
         -- https://github.com/jose-elias-alvarez/null-ls.nvim
         use("jose-elias-alvarez/null-ls.nvim")
         use("nvim-lua/plenary.nvim")
