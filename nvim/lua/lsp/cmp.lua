@@ -1,6 +1,7 @@
 -- 配置 nvim-cmp
 local cmp = require('cmp')
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
 -- 插件需要导出的快捷键设置
 local pluginKey = {}
 
@@ -40,44 +41,44 @@ end
 
 
 -- cmp 代码补全
-pluginKey.cmp = function(cmp)
+pluginKey.config = function(config)
 	return {
-		["<D-,>"] = cmp.mapping({
-			i = cmp.mapping.abort(),
-			c = cmp.mapping.close(),
+		["<D-,>"] = config.mapping({
+			i = config.mapping.abort(),
+			c = config.mapping.close(),
 		}),
-		["<D-.>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-		["<Down>"] = cmp.mapping.select_prev_item(),
-		["<Up>"] = cmp.mapping.select_next_item(),
+		["<D-.>"] = config.mapping(config.mapping.complete(), { "i", "c" }),
+		["<Down>"] = config.mapping.select_prev_item(),
+		["<Up>"] = config.mapping.select_next_item(),
 		-- 上一个 在一个
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-		["<C-n>"] = cmp.mapping.select_next_item(),
+		["<C-p>"] = config.mapping.select_prev_item(),
+		["<C-n>"] = config.mapping.select_next_item(),
 		-- 确定
-		["<CR>"] = cmp.mapping({
+		["<CR>"] = config.mapping({
 			i = function(fallback)
-				if cmp.visible() and cmp.get_active_entry() then
-					cmp.confirm({
+				if config.visible() and config.get_active_entry() then
+					config.confirm({
 						select = true,
-						behavior = cmp.ConfirmBehavior.Replace,
+						behavior = config.ConfirmBehavior.Replace,
 					})
 				else
 					fallback() -- If you use vim-endwise, this fallback will behave the same as vim-endwise.
 				end
 			end,
-			s = cmp.mapping.confirm({ select = true }),
-			c = cmp.mapping.confirm({
+			s = config.mapping.confirm({ select = true }),
+			c = config.mapping.confirm({
 				select = true,
-				behavior = cmp.ConfirmBehavior.Replace,
+				behavior = config.ConfirmBehavior.Replace,
 			}),
 		}),
 
 		-- 如果窗口内容太多，可以滚动
-		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-u>"] = config.mapping(config.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-d>"] = config.mapping(config.mapping.scroll_docs(4), { "i", "c" }),
 		-- tab 选择下一个
 		["<Tab>"] = function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
+			if config.visible() then
+				config.select_next_item()
 			else
 				fallback()
 			end

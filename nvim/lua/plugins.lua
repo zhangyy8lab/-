@@ -11,6 +11,7 @@ packer.startup({
 
         -- nvim 主题
         use({ "ellisonleao/gruvbox.nvim" })
+        use("sheerun/vim-polyglot")
 
         -- project.nvim
         -- https://github.com/ahmedkhalf/project.nvim

@@ -47,3 +47,12 @@ gitsigns.setup({
     --   enable = false
     -- },
 })
+
+
+-- 在调用函数之前定义函数
+local function my_custom_function()
+    print("This is my custom function")
+end
+
+-- 绑定快捷键
+vim.api.nvim_set_keymap('n', '<leader>mc', ':lua my_custom_function()<CR>', { noremap = true, silent = true })

@@ -9,9 +9,6 @@ end
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- 列表操作快捷键
--- local list_keys = require("keymappings").nvimTreeList
-
 -- 设置配置项
 nvim_tree.setup({
     disable_netrw = false,
@@ -39,10 +36,6 @@ nvim_tree.setup({
         side = "left",
         adaptive_size = true,
         signcolumn = "yes",
-        -- mappings = {
-        --     custom_only = false,
-        --     list = list_keys,
-        -- },
     },
     on_attach = function(bufnr)
         local function opts(desc)
@@ -51,12 +44,11 @@ nvim_tree.setup({
         local api = require("nvim-tree.api")
         api.config.mappings.default_on_attach(bufnr)
         -- custom mappings
-        vim.keymap.set("n", "<C-t>", api.tree.change_root_to_parent, opts("Up"))
+        -- vim.keymap.set("n", "<C-t>", api.tree.change_root_to_parent, opts("Up"))
         vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
     end,
     system_open = {
         cmd = "open",
-        -- cmd = "wsl-open" // npm i -g wsl-open
     },
     actions = {
         open_file = {

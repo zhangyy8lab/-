@@ -38,19 +38,23 @@ map("n", "wq", ":w<CR> | :Bdelete!<CR>", opt)
 map("n", "<Esc>", ":nohlsearch<CR><Esc>", opt)
 
 -- tree 文件树左侧快捷键设置
-map("n", "<leader>tr", ":NvimTreeToggle<CR>", opt)
+map("n", "tr", ":NvimTreeToggle<CR>", opt)
 
--- 字符高亮
-map("n", "<leader>iw", "[[:lua highlight_word()<CR>]]", opt)
--- vim.api.nvim_set_keymap("n", "<leader>hw", [[:lua highlight_word()<CR>]], { noremap = true, silent = true })
-
-map("n", "<leader>iwc", "[[:lua clear_highlights()<CR>]]", opt)
-
--- vim.api.nvim_set_keymap("n", "iw", [[:lua highlight_words()<CR>]], { noremap = true, silent = true })
--- vim.api.nvim_set_keymap("n", "ic", [[:lua clear_highlights()<CR>]], { noremap = true, silent = true })
+-- 根据文件名查询文件
 map("n", "<C-p>", ":Telescope find_files<CR>", opt)
+-- 根据字符查询在哪些文件中出现过
 map("n", "<C-f>", ":Telescope live_grep<CR>", opt)
+
+-- git commit history
+map("n", "gitc", ":Telescope git_commits<CR>", opt)
+-- git status
+map("n", "gits", ":Telescope git_status<CR>", opt)
 -- map("n", "<C-;>", ":Telescope project<CR>", opt)
+
+-- git add . and git commit -m ``
+map("n", "gam", ":lua GitAddCommit()", opt)
+-- git push
+map("n", "gp", ":lua GitPush()", opt)
 
 -- bufferline  左右切换 tab
 map("n", "<Tab>h", ":BufferLineCyclePrev<CR>", opt)
@@ -68,7 +72,7 @@ map("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opt)
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR><cmd>cclose<CR>", opt)
 
 -- 代码格式化
-map("n", "gf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR><cmd>cclose<CR>", opt)
+map("n", "ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR><cmd>cclose<CR>", opt)
 
 -- map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opt)
 -- 非自定义g开头的快捷键 使用:nmap xx， 查询xx定义的快捷键
@@ -109,53 +113,6 @@ map("n", "gf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR><cmd>cclose<CR>
 -- bufmap(bufnr, "t", [[<M-\>]], "<cmd>Lspsaga term_toggle<CR>", opt)
 -- end
 
--- -- cmp 代码补全
--- pluginKey.cmp = function(cmp)
--- 	return {
--- 		["<D-,>"] = cmp.mapping({
--- 			i = cmp.mapping.abort(),
--- 			c = cmp.mapping.close(),
--- 		}),
--- 		["<D-.>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
--- 		["<Down>"] = cmp.mapping.select_prev_item(),
--- 		["<Up>"] = cmp.mapping.select_next_item(),
--- 		-- 上一个 在一个
--- 		["<C-p>"] = cmp.mapping.select_prev_item(),
--- 		["<C-n>"] = cmp.mapping.select_next_item(),
--- 		-- 确定
--- 		["<CR>"] = cmp.mapping({
--- 			i = function(fallback)
--- 				if cmp.visible() and cmp.get_active_entry() then
--- 					cmp.confirm({
--- 						select = true,
--- 						behavior = cmp.ConfirmBehavior.Replace,
--- 					})
--- 				else
--- 					fallback() -- If you use vim-endwise, this fallback will behave the same as vim-endwise.
--- 				end
--- 			end,
--- 			s = cmp.mapping.confirm({ select = true }),
--- 			c = cmp.mapping.confirm({
--- 				select = true,
--- 				behavior = cmp.ConfirmBehavior.Replace,
--- 			}),
--- 		}),
--- 
--- 		-- 如果窗口内容太多，可以滚动
--- 		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
--- 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
--- 		-- tab 选择下一个
--- 		["<Tab>"] = function(fallback)
--- 			if cmp.visible() then
--- 				cmp.select_next_item()
--- 			else
--- 				fallback()
--- 			end
--- 		end,
--- 	}
--- end
--- 
--- return pluginKey
 
 -- 修改窗口大小
 -- map("n", "<M-Left>", ":vertical resize -2<CR>", opt)

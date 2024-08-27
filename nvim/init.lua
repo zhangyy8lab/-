@@ -1,4 +1,5 @@
 -- 初始化 packer.nvim 插件管理器
+
 require("plugins")
 
 require("basic")
@@ -7,10 +8,14 @@ require("colorscheme")
 -- 快捷键映射
 require("keymappings")
 
+-- 面板
 require("plugin-config.dashboard")
 
 -- 用于模糊查找和快速导航文件、缓冲区、Git 分支、符号、命令等内容
 require("plugin-config.telescope")
+
+-- 成对字符 
+require("plugin-config.autopairs")
 
 -- 左侧文件管理器,文件树
 require("plugin-config.nvim-tree")
