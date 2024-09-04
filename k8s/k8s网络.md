@@ -318,5 +318,5 @@ spec:  #必选，Pod中容器的详细定义
 
 # yaml 格式
 
-![image-20240508150847225](./images/image-20240508150847225.png)
+![image-20240508150847225](../images/k8s/k8sYamlDemo.png)
 

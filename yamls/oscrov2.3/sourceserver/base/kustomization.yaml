@@ -1,6 +1,0 @@
-resources:
-- sourceserver-sts.yaml
-- sourceserver-cm.yaml 
-- sourceserver-svc.yaml 
-- sourceserver.yaml 
- 
