@@ -18,7 +18,7 @@
 
 ​	4.	**订阅（Subscription）**：用户可以向中继节点订阅特定类型的事件，或来自特定用户的事件。
 
-![](/Users/zhangyy/8lab/github/docs/images/nostr-relay.png)
+![]()
 
 
 
