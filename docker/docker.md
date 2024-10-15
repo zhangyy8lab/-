@@ -393,3 +393,46 @@ POSTGRES_DB=myapp_db
 
 - 停止 `docker-compose down` 
 - 重启 `docker-compose restart`
+
+## updateServices
+
+> 将文件放到对应的项目中并和Dockerfile同一级目录中
+
+```bash 
+#!/bin/bash
+
+# 获取当前日期和时间，格式为 YYYYMMDDHHMM
+current_time=$(date +"%Y%m%d%H%M")
+image_name="starpay"
+container_name="star_pay_service"
+compose_file="docker-compose.yml"
+
+# 项目路径，可以根据需要修改
+# project_path="/path/to/your/project"
+
+# 进入项目路径
+#cd $project_path || { echo "无法进入项目目录：$project_path"; exit 1; }
+
+# 拉取最新代码
+echo "正在拉取最新代码..."
+git pull || { echo "git pull 失败"; exit 1; }
+
+# 构建新的 Docker 镜像，使用当前时间作为标签
+image_name="$image_name:$current_time"
+echo "正在构建 Docker 镜像: $image_name"
+docker build -t $image_name . || { echo "Docker 构建失败"; exit 1; }
+
+# 停止并删除原来的容器
+echo "删除容器中..."
+docker-compose down 
+
+echo "更新 docker-compose.yml 中的镜像版本为: $image_name"
+sed -i "s|image: starpay:.*|image: $image_name|g" $compose_file || { echo "更新 docker-compose.yml 失败"; exit 1; }
+
+# 使用 docker-compose 启动新的容器
+echo "启动新的容器..."
+docker-compose up -d || { echo "docker-compose 启动失败"; exit 1; }
+
+echo "更新成功，容器已启动，镜像版本为: $image_name:$current_time"
+```
+
