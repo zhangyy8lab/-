@@ -64,6 +64,40 @@ docker login -u 用户名 -p 密码 IP # ip为Harbor地址
 
 
 
+### changeContainerStorage
+
+> /var/lib/docker/overlay2/产生的文件可以指定到 /8lab/docker 下
+
+```bash
+# 先停止 Docker 服务，以防止任何文件被占用：
+sudo systemctl stop docker
+
+# /8lab/docker 下创建用于存放 Docker 数据的目录，并设置正确的权限：
+mkdir -p /8lab/docker && chown -R root:root /8lab/docker && chmod -R 755 /8lab/docker
+
+# 修改配置文件 vim /etc/docker/daemon.json
+{
+  "data-root": "/8lab/docker"
+}
+
+#  迁移现有的 Docker 数据
+rsync -aP /var/lib/docker/ /8lab/docker/
+ 
+# 保留原有的 Docker 数据目录作为备份
+mv /var/lib/docker /var/lib/docker.bak
+
+# 创建一个符号链接，指向新目录
+ln -s /8lab/docker /var/lib/docker
+
+# 重新启动 Docker 服务
+ systemctl start docker
+ 
+```
+
+
+
+
+
 ## command
 
 ### network
