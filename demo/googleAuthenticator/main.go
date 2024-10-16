@@ -1,11 +1,14 @@
 package main
 
 import (
+    "bytes"
+    "encoding/base64"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pquerna/otp/totp"
+    "github.com/skip2/go-qrcode"
 )
 
 // user account password
@@ -35,9 +38,33 @@ func getQRCode(c *gin.Context) {
 
     qrCodeUrl := fmt.Sprintf("otpauth://totp/%s:%s?secret=%s&issure=%s", "MyApp", username, secretKey, "MyApp")
 
+    // 创建一个字节缓冲区
+	var buffer bytes.Buffer
+
+	// 生成二维码并写入字节缓冲区
+	qrCode, err := qrcode.New(qrCodeUrl, qrcode.Medium)
+	if err != nil {
+		fmt.Println("生成二维码失败:", err)
+		return
+	}
+
+	// 将二维码写入 buffer（PNG 格式）
+	err = qrCode.Write(256, &buffer)
+	if err != nil {
+		fmt.Println("二维码写入缓冲区失败:", err)
+		return
+	}
+
+	// Base64 编码
+	qrCodeBase64 := base64.StdEncoding.EncodeToString(buffer.Bytes())
+
+
+
+	// Base64 编码
     c.JSON(http.StatusOK, gin.H{
         "qr_code_url": qrCodeUrl,
         "qu_key": secretKey,
+        "base64Qr": qrCodeBase64,
         "message": "Scan the QR code or add the key manually in google Authenticator",
 
     })
