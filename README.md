@@ -26,7 +26,7 @@
 - 微服务注册与发现：Consul
 - 反向代理服务器：Nginx
 - 数据库：MySQL, Redis
-- Web3: solana, solana-explorer, blockscout
+- 区块链: BTC，solana, solana-explorer, blockscout
 
 ## 工作经验
 
