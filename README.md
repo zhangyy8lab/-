@@ -2,7 +2,7 @@
 
 - 姓名：张洋洋
 
-- 地址：https://github.com/zhangyy8lab/docs.git
+- 地址：https://github.com/0xA2618/docs.git
 
   ​           https://blog.csdn.net/weixin_38507813?spm=1011.2124.3001.5343
 
@@ -17,7 +17,7 @@
 
 ## 技能
 
-- 编程语言： Go, Python
+- 编程语言： Go, Python, shell
 - 容器化技术：kubernetes, Docker, docker-ompose
 - 监控组件： prometheus, grafana, alertManage, dingtalk
 - 消息队列：NSQ, RocketMQ
